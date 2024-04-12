@@ -2,7 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
-    <title>Today's weather, oh-nal</title>
+    <title>Today's weather, oh-nal'</title>
     <%@include file="../include/static-head.jsp"%>
 </head>
 <body>
