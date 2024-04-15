@@ -1,0 +1,46 @@
+package com.ohnal.chap.controller;
+
+import com.ohnal.chap.service.SnsLoginService;
+import lombok.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Controller
+@Slf4j
+@RequiredArgsConstructor
+public class SnsLoginController {
+    private final SnsLoginService snsLoginService;
+
+    @Value("${sns.kakao.app-key}")
+    private String kakaoAppKey;
+
+    @Value("${sns.kakao.redirect-uri}")
+    private String kakaoRedirectUri;
+
+    @GetMapping("/kakao/login")
+    public String kakaoLogin() {
+        String uri = "https://kauth.kakao.com/oauth/authorize";
+        uri += "?client_id=" + kakaoAppKey;
+        uri += "&redirect_uri=" + kakaoRedirectUri;
+        uri += "&response_type=code";
+        return "redirect:" + uri;
+    }
+
+    @GetMapping("/auth/kakao")
+    public String snsKakao(String code) {
+        Map<String , String> params = new HashMap<>();
+        params.put("appkey", kakaoAppKey);
+        params.put("redirect",kakaoRedirectUri);
+        params.put("code",code);
+
+        snsLoginService.kakaoLogin(params);
+
+        return null;   // 이거삭제하기ㄴ
+    }
+
+}
