@@ -24,8 +24,6 @@ public class LoginController {
 
     @PostMapping("/sign-in")
     public String SignIn(LoginRequestDTO dto) {
-        System.out.println("sign-in : post 로 요청들어옴");
-        System.out.println(dto +"dto요청");
 
 
         return null;
