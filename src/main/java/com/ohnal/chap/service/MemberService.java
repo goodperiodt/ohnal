@@ -1,6 +1,7 @@
 package com.ohnal.chap.service;
 
 import com.ohnal.chap.dto.LoginRequestDTO;
+import com.ohnal.chap.dto.request.SignUpRequestDTO;
 import com.ohnal.chap.entity.Member;
 import com.ohnal.chap.mapper.MemberMapper;
 import jakarta.servlet.http.HttpServletResponse;
@@ -17,9 +18,19 @@ public class MemberService {
     private final MemberMapper memberMapper;
     private final PasswordEncoder encoder;
 
+    public void join(SignUpRequestDTO dto, String savePath) {
+        memberMapper.save(dto.toEntity(encoder, savePath));
+    }
+
+
+    public boolean checkDuplicateValue(String type, String keyword) {
+        return memberMapper.isDuplicate(type, keyword);
+    }
+
+
+
     public LoginResult authenticate(LoginRequestDTO dto,
                                     HttpSession session , HttpServletResponse response) {
-
 
         Member foundMember = memberMapper.findMember(dto.getAddress());
         if (foundMember == null) {
@@ -31,11 +42,7 @@ public class MemberService {
         if (!encoder.matches(inputPassword,realPassword)) {
              return  LoginResult.NO_PW;
         }
-
-    
-        
           return LoginResult.SUCCESS;
     }
-    
 
 }
