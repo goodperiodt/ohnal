@@ -32,7 +32,7 @@ public class SnsLoginService {
 
         RestTemplate template = new RestTemplate();
 
-       HttpEntity<Object> requestEntity = new HttpEntity<>(headers,params);
+       HttpEntity<Object> requestEntity = new HttpEntity<>(params,headers);
 
         ResponseEntity<Map> responseEntity = template.exchange(requestUri,
                 HttpMethod.POST,

@@ -40,7 +40,7 @@ public class SnsLoginController {
 
         snsLoginService.kakaoLogin(params);
 
-        return null;   // 이거삭제하기ㄴ
+        return "";
     }
 
 }
