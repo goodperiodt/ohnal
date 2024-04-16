@@ -16,5 +16,5 @@ public class MemberController {
     @Value("${file.upload.root-path}")
     private String rootPath;
 
-    private final MemberService memberService;
+     private final MemberService memberService;
 }
