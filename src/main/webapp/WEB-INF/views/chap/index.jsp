@@ -1,6 +1,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
+
 <head>
     <title>Today weather, oh-nal</title>
     <%@include file="../include/static-head.jsp"%>
@@ -8,7 +9,12 @@
     <link rel="stylesheet" href="/assets/css/main.css">
     <!-- weather search event js -->
     <script src="/assets/js/weather-search.js" defer></script>
+
+    <%-- swiper.js --%>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 </head>
+
 <body>
     <%@include file="../include/header.jsp"%>
 
@@ -31,9 +37,23 @@
                 <div class="right-top">
                     <h2>오늘의 패션 예보</h2>
                 </div>
-                <div class="right-down">
-                    <img src="./assets/img/cody.png" alt="test">
+                <div class="swiper">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper">
+                        <div class="right-down swiper-slide" data-swiper-autoplay="3000">
+                                <img class = "clothes-img" src="/assets/img/clothes-image/range_code_${dto.styleImage}/${dto.styleImage}-0-male.png">
+                        </div>
+                        <div class="right-down swiper-slide" data-swiper-autoplay="3000">
+                            <img class = "clothes-img" src="/assets/img/clothes-image/range_code_${dto.styleImage}/${dto.styleImage}-1-male.png">
+                        </div>
+                        <div class="right-down swiper-slide" data-swiper-autoplay="3000">
+                            <img class = "clothes-img" src="/assets/img/clothes-image/range_code_${dto.styleImage}/${dto.styleImage}-2-male.png">
+                        </div>
+                    </div>
+                    <!-- If we need pagination -->
+                    <div class="swiper-pagination"></div>
                 </div>
+
             </div>
         </div>
 
@@ -231,8 +251,49 @@
         // 사용자의 위치를 (자동으로) 가져오기
         
         // 사용자의 위치(위도, 경도)를 가져올 변수 선언 및 초기화
+        // navigator.geolocation 객체 사용 가능 여부 확인
+        if("geolocation" in navigator) {
+            // 브라우저가 지원한다면
+            console.log('success');
+            // 콘솔창에 success 출력되어 navigator.geolocation 객체를 사용해서 사용자의 위치를 가져오겠습니다.
+        } else {
+            console.log(fail);
+        }
+
+        navigator.geolocation.getCurrentPosition(function(permitPosition) {
+            console.log(permit);
+            var latitude = permitPosition.coords.latitude; // 위도
+            var longitude = permitPosition.coords.longitude; // 경도
+            console.log("현재 위치는 : " + latitude + ", "+ longitude);
+        }, function(rejectPosition) {});
+
+        // 사용자의 위치가 거절되는 3가지 경우
+
         
 
+        // swiper 함수
+        const swiper = new Swiper('.swiper', {
+            // Optional parameters
+            direction: 'horizontal',
+            loop: true,
+
+            // If we need pagination
+            pagination: {
+                el: '.swiper-pagination',
+            },
+
+            // Navigation arrows
+            navigation: {
+                nextEl: '.swiper-button-next',
+                prevEl: '.swiper-button-prev',
+            },
+
+            // And if we need scrollbar
+            scrollbar: {
+                el: '.swiper-scrollbar',
+            },
+        });
+        swiper.autoplay.start();
 
 
 
