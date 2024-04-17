@@ -26,17 +26,15 @@ public class MemberController {
     private String rootPath;
 
     private final MemberService memberService;
-/////////////////////////////////////////////////////////////////////////////////////////////////
+
 
 
     @PostMapping("/sign-in")
     public String signIn(LoginRequestDTO dto,
                          RedirectAttributes ra,
                          HttpServletResponse response,
-                         HttpServletRequest request
-    ) {
+                         HttpServletRequest request) {
         log.info("/members/sign-in: POST!, dto: {}", dto);
-
 
         LoginResult result = memberService.authenticate(dto, request.getSession(), response);
         log.info("result: {}", result);

@@ -12,10 +12,11 @@
 <body>
 
   <div class="container">
+
     <div class="inner">
       <div class="image_container">
         <img id="imagePreview" src="ohnal-test/assets/img/cody.png" alt="이미지 미리보기">
-        <form method="post" enctype="multipart/form-data">
+        <   form method="post" enctype="multipart/form-data">
           <div class="btn_image">
             <label for="selectFile">
               프로필사진
