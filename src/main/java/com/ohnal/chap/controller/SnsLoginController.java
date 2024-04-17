@@ -1,6 +1,8 @@
 package com.ohnal.chap.controller;
 
 import com.ohnal.chap.service.SnsLoginService;
+import jakarta.mail.Session;
+import jakarta.servlet.http.HttpSession;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -32,13 +34,13 @@ public class SnsLoginController {
     }
 
     @GetMapping("/auth/kakao")
-    public String snsKakao(String code) {
+    public String snsKakao(String code , HttpSession session) {
         Map<String , String> params = new HashMap<>();
         params.put("appkey", kakaoAppKey);
         params.put("redirect",kakaoRedirectUri);
         params.put("code",code);
 
-        snsLoginService.kakaoLogin(params);
+        snsLoginService.kakaoLogin(params, session);
 
         return "redirect:/";
     }

@@ -2,6 +2,7 @@ package com.ohnal.chap.service;
 
 import com.ohnal.chap.dto.LoginRequestDTO;
 import com.ohnal.chap.dto.request.SignUpRequestDTO;
+import com.ohnal.chap.dto.response.LoginUserResponseDTO;
 import com.ohnal.chap.entity.Member;
 import com.ohnal.chap.mapper.MemberMapper;
 import jakarta.servlet.http.HttpServletResponse;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.ohnal.util.LoginUtils.LOGIN_KEY;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +47,17 @@ public class MemberService {
         }
           return LoginResult.SUCCESS;
     }
-
+    public void maintainLoginState(HttpSession session, String account) {
+        Member foundMember = memberMapper.findMember(account);
+        LoginUserResponseDTO dto = LoginUserResponseDTO.builder()
+                .account(foundMember.getEmail())
+                .name(foundMember.getName())
+                .email(foundMember.getEmail())
+                .auth(foundMember.getAuth())
+                .profile(foundMember.getProfileImage())
+                .loginMethod(foundMember.getLoginMethod().toString())
+                .build();
+        session.setAttribute(LOGIN_KEY , dto);
+        session.setMaxInactiveInterval(60 * 60);
+    }
 }

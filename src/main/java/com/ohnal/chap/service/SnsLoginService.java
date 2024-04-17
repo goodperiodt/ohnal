@@ -1,9 +1,11 @@
 package com.ohnal.chap.service;
 
+import com.mysql.cj.Session;
 import com.ohnal.chap.dto.request.SignUpRequestDTO;
 import com.ohnal.chap.dto.response.KakaoUserResponseDTO;
 import com.ohnal.chap.entity.Member;
 import com.ohnal.chap.mapper.MemberMapper;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -22,7 +24,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SnsLoginService {
     private final MemberService memberService;
-    public void kakaoLogin(Map<String, String> params) {
+    public void kakaoLogin(Map<String, String> params , HttpSession session) {
 
         String accessToken = getKakaoAccessToken(params);
 
@@ -41,10 +43,8 @@ public class SnsLoginService {
                     kakaoUserDTO.getProperties().getProfileImage()
             );
         }
-
-        //
-        //로그인 처리 메서드생성해야함
-        //
+        //sns로그인 ohnal사이트로 로그인
+        memberService.maintainLoginState(session, String.valueOf(kakaoUserDTO.getId()));
 
     }
 
@@ -66,7 +66,7 @@ public class SnsLoginService {
 
     }
 
-
+   //토큰발급
     private String getKakaoAccessToken(Map<String , String> requestParam) {
         String requestUri = "https://kauth.kakao.com/oauth/token";
         HttpHeaders headers = new HttpHeaders();
