@@ -10,7 +10,6 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,8 +19,7 @@ import org.springframework.web.util.WebUtils;
 import java.time.LocalDateTime;
 
 import static com.ohnal.chap.service.LoginResult.NO_PW;
-import static com.ohnal.util.LoginUtils.AUTO_LOGIN_COOKIE;
-import static com.ohnal.util.LoginUtils.LOGIN_KEY;
+import static com.ohnal.util.LoginUtils.*;
 
 
 @Service
@@ -55,12 +53,12 @@ public class MemberService {
             return LoginResult.NO_EMAIL;
         }
 
-        // 비밀번호 일치 검사
-        String inputPassword = dto.getPassword(); // 사용자 입력 패스워드
-        String realPassword = foundMember.getPassword(); // 실제 패스워드
 
-        // matches(입력비번, 암호화된 비번) -> 둘이 일치하면 true, 일치하지 않으면 false
-        // equals로 비교하시면 안돼요!
+        String inputPassword = dto.getPassword();
+        String realPassword = foundMember.getPassword();
+
+
+
         if (!encoder.matches(inputPassword, realPassword)) {
             System.out.println("비밀번호가 일치하지 않습니다.");
             return NO_PW;
@@ -98,7 +96,7 @@ public class MemberService {
 
     }
 
-    public void autoLoginClear(HttpServletRequest request, HttpServletResponse response, String email) {
+    public void autoLoginClear(HttpServletRequest request, HttpServletResponse response) {
         // 1. 자동 로그인 쿠키를 가져온다.
         Cookie c = WebUtils.getCookie(request, AUTO_LOGIN_COOKIE);
 
@@ -114,7 +112,7 @@ public class MemberService {
                     AutoLoginDTO.builder()
                             .sessionId("none") // 세션아이디 지우기
                             .limitTime(LocalDateTime.now()) // 로그아웃한 현재 날짜
-                            .email(email) // 로그인 중이었던 사용자 아이디.
+                            .email(getCurrentLoginMemberEmail(request.getSession())) // 로그인 중이었던 사용자 이메일
                             .build()
             );
         }

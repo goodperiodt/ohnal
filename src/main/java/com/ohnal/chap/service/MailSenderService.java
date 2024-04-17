@@ -1,4 +1,4 @@
-package com.ohnal.util;
+package com.ohnal.chap.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -7,16 +7,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Component;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
 
 @Component
 @RequiredArgsConstructor
 @Slf4j
-public class MailSendService {
+public class MailSenderService {
 
-    @Autowired
+
     private final JavaMailSender mailSender;
 
     private int makeRandomNumber(){
@@ -41,14 +40,15 @@ public class MailSendService {
 
     private void mailSend(String setFrom, String toMail, String title, String content) {
         try {
-            MimeMessage message = null;
+            MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, false, "utf-8");
-            message = mailSender.createMimeMessage();
             helper.setFrom(setFrom);
             helper.setTo(toMail);
             helper.setSubject(title);
             // true -> html 형식으로 전송, 값을 안주면 단순 텍스트로만 전달.
             helper.setText(content, true);
+
+            mailSender.send(message);
 
         } catch (MessagingException e) {
             e.printStackTrace();
