@@ -50,21 +50,16 @@ public class MailSenderService {
             // true -> html 형식으로 전송, 값을 안주면 단순 텍스트로만 전달.
             helper.setText(content, true);
 
-<<<<<<< HEAD
+
             log.info(String.valueOf(helper));
 
-=======
->>>>>>> 16ab51f8d44536097db41c5b006f7af11843b99a
             mailSender.send(message);
 
         } catch (MessagingException e) {
             e.printStackTrace();
         }
 
-<<<<<<< HEAD
-=======
 
->>>>>>> 16ab51f8d44536097db41c5b006f7af11843b99a
     }
 
 }
