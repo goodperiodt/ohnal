@@ -9,6 +9,20 @@ import lombok.*;
 //@NoArgsConstructor
 //@AllArgsConstructor
 //@Builder
-public class NaverLoginDTO {
+public class NaverRequestDTO {
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 }
+

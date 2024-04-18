@@ -1,19 +1,31 @@
 package com.ohnal.chap.controller;
 
+import com.ohnal.chap.service.NaverLoginService;
 import jakarta.servlet.http.HttpSession;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.net.URLEncoder;
+import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
 @Controller
 @Slf4j
 @RequiredArgsConstructor
+@ToString
+@Builder
+
 public class NaverController {
+
+    private final NaverLoginService naverLoginService;
 
     @Value("${sns.naver.client-id}")
     private String clientId;
@@ -27,6 +39,11 @@ public class NaverController {
     @Value("${sns.naver.state}")
     private String state;
 
+    @Value("${sns.naver.grant_type")
+    private String grantType;
+
+
+
 
 
     @GetMapping("/naver/login")
@@ -37,10 +54,36 @@ public class NaverController {
         uri += "&state="+state;
         uri += "&redirect_uri="+redirectUri;
 
-        log.info("url:{}", uri);
+        log.info("url: {}", uri);
         return "redirect:"+uri;
 
     }
 
+    @GetMapping("/auth/naver")
+    public String naverCallback(String code, String state) {
+        log.info("/auth/naver: GET!");
+        log.info("code: {}, state: {}", code, state);
 
-}
+        Map<String , String > naverParams = new HashMap<>();
+    naverParams.put("grant_type",grantType);
+    naverParams.put("client_id",clientId);
+    naverParams.put("client_secret",clientSecret);
+    naverParams.put("code",code );
+    naverParams.put("state", state);
+
+    naverLoginService.getNaverToken(naverParams);
+
+       log.info(naverParams.toString());
+        return "redirect";
+
+    }
+    }
+
+
+
+
+
+
+
+
+
