@@ -47,7 +47,7 @@
 
 
 
-           <a href="/naver/login" class="naverlogobackground"><img id="naverlogo" src="/assets/img/naverlogo.png" alt="네이버로그인로고"></a>
+            <a href="/naver/login" class="naverlogobackground"><img id="naverlogo" src="/assets/img/naverlogo.png" alt="네이버로그인로고"></a>
 
 
 </div>
