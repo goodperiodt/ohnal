@@ -40,6 +40,11 @@ button {
 .ohnallogo{
 display: flex;
     position: absolute;
-    right: 650;
+    right: 920;
     top: 150;
+}
+
+.ohnalimg {
+width:300px;
+height : 100px;
 }

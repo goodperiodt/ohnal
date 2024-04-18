@@ -10,7 +10,7 @@
 
 <div></div>
 <div class="ohnallogo">
-<a href="/board/list"><img class="ohnalimg" src="/src/main/resources/static/assets/img/navbar-logo.svg" alt="오날로고"></a>
+<a href="/board/list"><img class="ohnalimg" src="/assets/img/navbar-logo.svg" alt="오날로고"></a>
  </div>
  <div class="container">
         <h1>비밀번호 찾기</h1>
