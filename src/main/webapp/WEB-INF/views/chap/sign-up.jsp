@@ -129,7 +129,7 @@ $emailInput.onkeyup = e => {
         } else {
           $emailInput.style.borderColor = 'skyblue';
           document.getElementById('emailChk').innerHTML = '<b style="color: skyblue;">[사용가능한 이메일입니다.]</b>';
-          
+
 
 let code = '';
 
@@ -281,27 +281,27 @@ document.getElementById('emailAuth').onclick = () => {
 
 
     function handleButtonClick(selectedButton, unselectedButton) {
-     
+
       const selectedValue = selectedButton.value;
 
       selectedButton.style.backgroundColor = "rgba(4, 25, 44, 0.3)";
 
-      
+
       unselectedButton.value = "";
 
-     
+
       unselectedButton.style.backgroundColor = "";
 
-  
+
       checkResultList[4] = true;
     }
 
-  
+
     $maleButton.addEventListener('click', () => {
       handleButtonClick($maleButton, $femaleButton);
     });
 
-  
+
     $femaleButton.addEventListener('click', () => {
       handleButtonClick($femaleButton, $maleButton);
     });

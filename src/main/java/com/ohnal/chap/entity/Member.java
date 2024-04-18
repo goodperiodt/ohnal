@@ -17,6 +17,7 @@ public class Member {
     private String name;
     private String gender;
     private String address;
+    private String Auth;
     private LocalDateTime regDate;
 
     private LocalDateTime limitTime;

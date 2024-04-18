@@ -24,9 +24,9 @@ public class EmailConfig {
     private boolean auth;
     @Value("${spring.mail.properties.mail.smtp.starttls.enable}")
     private boolean starttlsEnable;
-    @Value("${spring.mail.properties.mail.smtp.starttls.required}")
+    @Value("${spring.mail.properties.smtp.starttls.required}")
     private boolean starttlsRequired;
-    @Value("${spring.mail.properties.mail.smtp.ssl.enable}")
+    @Value("${spring.mail.properties.smtp.ssl.enable}")
     private boolean sslEnable;
 
     @Bean
@@ -47,7 +47,8 @@ public class EmailConfig {
         properties.put("mail.smtp.auth", auth);
         properties.put("mail.smtp.starttls.enable", starttlsEnable);
         properties.put("mail.smtp.starttls.required", starttlsRequired);
-//        properties.put("mail.smtp.ssl.enable", sslEnable);
+        properties.put("mail.smtp.ssl.enable", sslEnable);
+
         return properties;
     }
 }
