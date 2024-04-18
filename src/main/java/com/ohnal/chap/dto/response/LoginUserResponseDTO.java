@@ -10,7 +10,7 @@ import org.springframework.boot.autoconfigure.web.WebProperties;
 public class LoginUserResponseDTO {
 
     private String email;
-    private  String name;
+    private String nickname;
     private String profile;
     private String loginMethod;
 
