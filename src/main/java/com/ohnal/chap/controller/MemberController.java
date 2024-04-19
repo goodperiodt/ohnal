@@ -7,6 +7,7 @@ import com.ohnal.chap.service.LoginResult;
 import com.ohnal.chap.service.MailSenderService;
 import com.ohnal.chap.service.MemberService;
 import com.ohnal.util.FileUtils;
+import com.ohnal.chap.service.MailSenderService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -63,7 +64,7 @@ public class MemberController {
         dto.setLoginMethod(Member.LoginMethod.COMMON);
 
         memberService.join(dto, savePath);
-        return "redirect:/members/sign-in";
+        return "redirect:/chap/sign-in";
     }
 
     @PostMapping("/sign-in")
@@ -94,7 +95,7 @@ public class MemberController {
             return "redirect:/index";
         }
 
-        return "redirect:/sign-in"; // 로그인 실패 시
+        return "redirect:/chap/sign-in"; // 로그인 실패 시
     }
 
     private void makeLoginCookie(LoginRequestDTO dto, HttpServletResponse response) {
@@ -122,6 +123,7 @@ public class MemberController {
     // my-page로 이동하는 메서드
     @GetMapping("/my-history")
     public String myHistory() {
+        log.info("my-history 페이지 들어옴");
         return "chap/my-history";
     }
 
