@@ -21,7 +21,7 @@ import java.util.Map;
 @Slf4j
 @RequiredArgsConstructor
 @ToString
-@Builder
+
 
 public class NaverController {
 
@@ -73,8 +73,8 @@ public class NaverController {
 
     naverLoginService.getNaverToken(naverParams);
 
-       log.info(naverParams.toString());
-        return "redirect";
+
+        return "/index";
 
     }
     }
