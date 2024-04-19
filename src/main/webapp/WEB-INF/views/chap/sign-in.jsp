@@ -12,7 +12,7 @@
 
     <div class="container">
             <h2 class="logintextlogin">로그인</h2>
-            <form action="/sign-in" name="sign-in" method ="post" id="signInForm">
+            <form action="/members/sign-in" name="sign-in" method ="post" id="signInForm">
                 <div class="input-group">
                     <input type="text" placeholder="이메일을 입력하세요">
                 </div>
@@ -52,5 +52,7 @@
 
 </div>
     <%@include file="../include/footer.jsp"%>
+
+
 </body>
 </html>

@@ -1,8 +1,9 @@
-const autoblock = document.querySelector('autologinbox');
-const checkbox = document.getElementById('auto-login')
-checkbox.addEventListener('click', e.tartget  )
+const autoblock = document.querySelector('.autologinbox');
+const checkbox = document.getElementById('auto-login');
 
-autoblock.addEventListener('click', function(event) {
-  if (event.target === autoblock) {
+checkbox.addEventListener('click', function(event) {
+
+  if (event.target === checkbox) { 
       event.preventDefault();
   }
+});

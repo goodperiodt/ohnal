@@ -25,9 +25,9 @@
 
           <img id="imagePreview" src="/assets/img/anonymous.jpg" alt="이미지 미리보기">
           <div class="btn_image">
-            <label for="selectFile">
-              프로필사진
-            </label>
+
+              프로필 사진
+
           </div>
           <input type="file" id="selectFile" name="profileImage" accept="image/*" style="display: none;">
 
@@ -94,7 +94,6 @@
     </form>
   </div>
 
-  <input type="file" multiple>
 
   <%@include file="../include/footer.jsp"%>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -184,7 +183,7 @@
 
 
 
-    const passwordPattern = /([a-zA-Z0-9].*[!,@,#,$,%,^,&,*,?,_,~])|([!,@,#,$,%,^,&,*,?,_,~].*[a-zA-Z0-9])/;
+    const passwordPattern =/^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
 
     $pwInput.addEventListener('keyup', () => {
       const pwValue = $pwInput.value.trim();
@@ -377,6 +376,7 @@
         alert('입력란을 다시 확인해주세요');
       } else {
         $form.submit();
+        alert('회원가입이 완료되었습니다.');
       }
     }
   </script>
