@@ -17,12 +17,12 @@ public class Member {
     private String Auth;
     private String gender;
     private String address;
-    private LocalDateTime regDate;
-    private LocalDateTime limitTime;
-    private String sessionId;
-
     private String profileImage;
-    private  LoginMethod loginMethod;
+    private LoginMethod loginMethod;
+    private LocalDateTime regDate;
+    private String sessionId;
+    private LocalDateTime limitTime;
+
 
     public enum LoginMethod{
         COMMON,KAKAO,NAVER

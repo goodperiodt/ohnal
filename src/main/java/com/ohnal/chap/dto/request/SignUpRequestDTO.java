@@ -28,13 +28,13 @@ public class SignUpRequestDTO {
     private String address;
 
     private MultipartFile profileImage;
-
-    private LoginMethod loginMethod;
+    private Member.LoginMethod loginMethod;
 
     public Member toEntity(PasswordEncoder encoder, String savePath) {
         return Member.builder()
                 .email(email)
                 .password(encoder.encode(password))
+                .nickname(nickname)
                 .address(address)
                 .nickname(nickname)
                 .gender(gender)
@@ -42,6 +42,4 @@ public class SignUpRequestDTO {
                 .loginMethod(loginMethod)
                 .build();
     }
-
-
 }
