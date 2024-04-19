@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import static com.ohnal.util.LoginUtils.LOGIN_KEY;
 import static com.ohnal.util.LoginUtils.isAutoLogin;
 
 @Controller
@@ -126,10 +127,10 @@ public class MemberController {
         }
 
         // sns 로그인 상태인지를 확인
-//        LoginUserResponseDTO dto = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
-//        if (dto.getLoginMethod().equals("KAKAO")) {
-//            memberService.kakaoLogout(dto, session);
-//        }
+        LoginUserResponseDTO dto = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
+        if (dto.getLoginMethod().equals("KAKAO")) {
+            memberService.kakaoLogout(dto, session);
+        }
 
         // 세션에서 로그인 정보 기록 삭제
         session.removeAttribute("login");
@@ -140,6 +141,7 @@ public class MemberController {
         return "redirect:/members/sign-in";
 
     }
+
 
 
 
@@ -159,21 +161,13 @@ public class MemberController {
             return ResponseEntity.internalServerError().body("이메일 전송 과정에서 에러 발생!");
         }
     }
-    // 로그아웃 요청 처리
-    @GetMapping("/sign-out")
-    public String signOut(HttpSession session,
-                          HttpServletRequest request,
-                          HttpServletResponse response) {
-        log.info("members/sign-out: Get");
+
+        // my-history로 이동하는 메서드
+//    @GetMapping("/my-history")
+//    public String myHistory() {
+//        log.info("my-history 페이지 들어옴");
+//        return "chap/my-history";
+//    }
 
 
-    // my-history로 이동하는 메서드
-    @GetMapping("/my-history")
-    public String myHistory() {
-        log.info("my-history 페이지 들어옴");
-        return "chap/my-history";
     }
-
-
-
-}
