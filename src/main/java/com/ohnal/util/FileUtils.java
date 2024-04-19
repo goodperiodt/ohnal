@@ -12,6 +12,10 @@ import java.util.UUID;
 
 public class FileUtils {
 
+
+
+
+
 public static String uploadFile(MultipartFile file, String rootPath){
 String newFileName= UUID.randomUUID()+"_"+file.getOriginalFilename();
 String newUploadPath= makeDateFormatDirectory(rootPath);

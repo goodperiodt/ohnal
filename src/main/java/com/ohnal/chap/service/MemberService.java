@@ -41,8 +41,8 @@ public class MemberService {
     public void join(SignUpRequestDTO dto, String savePath) {
         // 클라이언트가 보낸 회원가입 데이터를
         // 패스워드 인코딩하여 엔터티로 변환해서 전달.
-       // String encodedPw = encoder.encode(dto.getPassword());
-       // dto.setPassword(encodedPw);
+        // String encodedPw = encoder.encode(dto.getPassword());
+        // dto.setPassword(encodedPw);
         memberMapper.save(dto.toEntity(encoder, savePath));
     }
 
