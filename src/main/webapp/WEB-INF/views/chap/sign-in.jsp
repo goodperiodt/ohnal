@@ -14,10 +14,12 @@
             <h2 class="logintextlogin">로그인</h2>
             <form action="/members/sign-in" name="sign-in" method ="post" id="signInForm">
                 <div class="input-group">
-                    <input type="text" placeholder="이메일을 입력하세요">
+                    <input type="text" placeholder="이메일을 입력하세요" name="email" id="signInId"
+                           required="required" aria-required="true">
                 </div>
                 <div class="input-group">
-                    <input type="password" placeholder="비밀번호를 하세요">
+                    <input type="password" placeholder="비밀번호를 입력하세요" id="signInPw" name="password"
+                           required="required" aria-required="true">
                 </div>
 
              <tr>
@@ -53,6 +55,15 @@
 </div>
     <%@include file="../include/footer.jsp"%>
 
+    <script>
+        const serverResult = '${result}';
+        console.log(serverResult);
 
+        if (serverResult === 'NO_EMAIL') {
+            alert('회원가입부터 하고 오세요~~');
+        } else if (serverResult === 'NO_PW') {
+            alert('비밀번호가 틀렸어요~');
+        }
+    </script>
 </body>
 </html>

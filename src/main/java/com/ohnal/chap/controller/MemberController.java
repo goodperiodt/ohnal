@@ -4,6 +4,7 @@ import com.ohnal.chap.dto.request.LoginRequestDTO;
 import com.ohnal.chap.dto.request.SignUpRequestDTO;
 import com.ohnal.chap.dto.response.LoginUserResponseDTO;
 import com.ohnal.chap.entity.Member;
+import com.ohnal.chap.service.BoardService;
 import com.ohnal.chap.service.LoginResult;
 import com.ohnal.chap.service.MailSenderService;
 import com.ohnal.chap.service.MemberService;
@@ -91,7 +92,7 @@ public class MemberController {
 
             // 로그인을 했다는 정보를 계속 유지하기 위한 수단으로 쿠키를 사용하자.
 
-//             makeLoginCookie(dto, response);
+             makeLoginCookie(dto, response);
 
             // 세션으로 로그인 유지
             memberService.maintainLoginState(request.getSession(), dto.getEmail());
@@ -158,12 +159,21 @@ public class MemberController {
             return ResponseEntity.internalServerError().body("이메일 전송 과정에서 에러 발생!");
         }
     }
+    // 로그아웃 요청 처리
+    @GetMapping("/sign-out")
+    public String signOut(HttpSession session,
+                          HttpServletRequest request,
+                          HttpServletResponse response) {
+        log.info("members/sign-out: Get");
 
-    // my-page로 이동하는 메서드
+
+    // my-history로 이동하는 메서드
     @GetMapping("/my-history")
     public String myHistory() {
         log.info("my-history 페이지 들어옴");
         return "chap/my-history";
     }
+
+
 
 }

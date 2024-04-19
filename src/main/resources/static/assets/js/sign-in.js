@@ -3,7 +3,7 @@ const checkbox = document.getElementById('auto-login');
 
 checkbox.addEventListener('click', function(event) {
 
-  if (event.target === checkbox) { 
+  if (event.target === checkbox) {
       event.preventDefault();
   }
 });

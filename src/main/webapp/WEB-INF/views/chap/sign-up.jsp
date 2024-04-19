@@ -94,7 +94,6 @@
     </form>
   </div>
 
-
   <%@include file="../include/footer.jsp"%>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
   <script>
@@ -183,7 +182,7 @@
 
 
 
-    const passwordPattern =/^(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,}$/;
+    const passwordPattern =/^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~@#$!%*?&])[a-zA-Z\d~@#$!%*?&]{8,}$/;
 
     $pwInput.addEventListener('keyup', () => {
       const pwValue = $pwInput.value.trim();

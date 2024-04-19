@@ -15,4 +15,3 @@ public class LoginUserResponseDTO {
     private String loginMethod;
 
 }
-

@@ -109,6 +109,7 @@ public class MemberService {
         // DB 데이터를 보여줄 것만 정제
         LoginUserResponseDTO dto = LoginUserResponseDTO.builder()
                 .email(foundMember.getEmail())
+                .nickname(foundMember.getNickname())
                 .profile(foundMember.getProfileImage())
                 .loginMethod(foundMember.getLoginMethod().toString())
                 .build();
