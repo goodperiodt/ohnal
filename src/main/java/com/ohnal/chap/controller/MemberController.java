@@ -11,6 +11,7 @@ import com.ohnal.chap.service.MailSenderService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tags.shaded.org.apache.xalan.templates.ElemValueOf;
@@ -64,7 +65,7 @@ public class MemberController {
         dto.setLoginMethod(Member.LoginMethod.COMMON);
 
         memberService.join(dto, savePath);
-        return "redirect:/chap/sign-in";
+        return "redirect:/members/sign-in";
     }
 
     @PostMapping("/sign-in")
@@ -95,7 +96,7 @@ public class MemberController {
             return "redirect:/index";
         }
 
-        return "redirect:/chap/sign-in"; // 로그인 실패 시
+        return "redirect:/members/sign-in"; // 로그인 실패 시
     }
 
     private void makeLoginCookie(LoginRequestDTO dto, HttpServletResponse response) {
@@ -119,6 +120,25 @@ public class MemberController {
             return ResponseEntity.internalServerError().body("이메일 전송 과정에서 에러 발생!");
         }
     }
+    // 로그아웃 요청 처리
+    @GetMapping("/sign-out")
+    public String signOut(HttpSession session,
+                          HttpServletRequest request,
+                          HttpServletResponse response) {
+        log.info("members/sign-out: Get");
+
+
+        // 로그아웃 처리
+        // 1. 세션에서 로그인 정보 기록 삭제
+        session.removeAttribute("login");
+
+        // 2. 세션 전체 무효화(초기화)
+        session.invalidate();
+
+        return "redirect:/index";
+    }
+
+    //---------my-history
 
     // my-page로 이동하는 메서드
     @GetMapping("/my-history")
@@ -126,5 +146,7 @@ public class MemberController {
         log.info("my-history 페이지 들어옴");
         return "chap/my-history";
     }
+
+
 
 }
