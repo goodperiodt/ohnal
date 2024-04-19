@@ -45,7 +45,7 @@ public class NaverController {
 
 
 
-
+//네이버로그인
     @GetMapping("/naver/login")
     private String naverLogin(){
         String  uri = "https://nid.naver.com/oauth2.0/authorize";
@@ -58,7 +58,7 @@ public class NaverController {
         return "redirect:"+uri;
 
     }
-
+//인가코드발급
     @GetMapping("/auth/naver")
     public String naverCallback(String code, String state) {
         log.info("/auth/naver: GET!");

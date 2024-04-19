@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -25,6 +26,7 @@ import java.util.Map;
 
 public class NaverLoginService {
     private final NaverController naverController;
+    private final MemberService memberService;
 
     public void naverLogin(Map<String, String> naverParams , HttpSession session) {
 
@@ -32,8 +34,20 @@ public class NaverLoginService {
         session.setAttribute("access_token",accessToken);
         log.info("access_token",accessToken);
 
+        NaverResponseDTO dto = getNaverUserInfo(accessToken);
+
+        String email = dto.getAccount().getEmail();
+        log.info("이메일:",email);
+        if (!memberService.checkDuplicateValue("email",email)) {
+            memberService.join(
+
+            );
+        }
+
+
     }
 
+    //토큰발급
     public String getNaverToken(Map<String, String> naverParams) {
         String getTokenUri = "https://nid.naver.com/oauth2.0/token";
 
@@ -61,6 +75,7 @@ public class NaverLoginService {
 
     }
 
+    //유저 정보가져오기
     private NaverResponseDTO getNaverUserInfo(String accessToken){
           String RequestUrl = "https://openapi.naver.com/v1/nid/me";
           HttpHeaders headers = new HttpHeaders();
