@@ -59,12 +59,15 @@
               <span id="reChkPw"></span>
             </div>
 
-            <div class="address">
+            <div class="address" name="address">
               <input type="text" id="sample6_postcode" placeholder="우편번호">
               <input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기"><br>
               <input type="text" id="sample6_address" placeholder="주소"><br>
               <input type="text" id="sample6_detailAddress" placeholder="상세주소">
               <input type="text" id="sample6_extraAddress" placeholder="참고항목">
+
+              <input type="hidden" id="address" name="address">
+
             </div>
 
             <div class="form-nick" id="fnick">
@@ -74,9 +77,12 @@
               <span id="nickChk"></span>
             </div>
 
-            <div class="gender" id="divgender">
+            <div class="gender" id="divgender" name="gender">
               <button type="button" class="btn_gender M" name="gender" value="M" class="blind">남자</button>
               <button type="button" class="btn_gender F" name="gender" value="F" class="blind">여자</button>
+
+               <input type="hidden" id="gender" name="gender">
+
             </div>
 
             <div class="btn_submit">
@@ -100,81 +106,81 @@
 
 
 
- document.getElementById('emailAuth').onclick=e=>{
-  alert('이메일을 확인 후 눌러주세요!');
-}
+    document.getElementById('emailAuth').onclick = e => {
+      alert('이메일을 확인 후 눌러주세요!');
+    }
 
 
-const emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
-const $emailInput = document.getElementById('email');
+    const emailPattern = /^[A-Za-z0-9_\.\-]+@[A-Za-z0-9\-]+\.[A-Za-z0-9\-]+/;
+    const $emailInput = document.getElementById('email');
 
-$emailInput.onkeyup = e => {
-  const emailValue = $emailInput.value;
-  if (emailValue.trim() === '') {
-    $emailInput.style.borderColor = 'red';
-    document.getElementById('emailChk').innerHTML = '<b style="color: red;">[이메일은 필수값입니다!]</b>';
-    checkResultList[0] = false;
-  } else if (!emailPattern.test(emailValue)) {
-    $emailInput.style.borderColor = 'red';
-    document.getElementById('emailChk').innerHTML = '<b style="color: red;">[이메일 형식에 맞게 작성해주세요]</b>';
-    checkResultList[0] = false;
-  } else {
-    fetch(`/members/check/email/` + emailValue)
-      .then(res => res.json())
-      .then(flag => {
-        if (flag) {
-          $emailInput.style.borderColor = 'red';
-          document.getElementById('emailChk').innerHTML = '<b style="color: red;">[이메일이 중복되었습니다.]</b>';
-          checkResultList[0] = false;
-        } else {
-          $emailInput.style.borderColor = 'skyblue';
-          document.getElementById('emailChk').innerHTML = '<b style="color: skyblue;">[사용가능한 이메일입니다.]</b>';
+    $emailInput.onkeyup = e => {
+      const emailValue = $emailInput.value;
+      if (emailValue.trim() === '') {
+        $emailInput.style.borderColor = 'red';
+        document.getElementById('emailChk').innerHTML = '<b style="color: red;">[이메일은 필수값입니다!]</b>';
+        checkResultList[0] = false;
+      } else if (!emailPattern.test(emailValue)) {
+        $emailInput.style.borderColor = 'red';
+        document.getElementById('emailChk').innerHTML = '<b style="color: red;">[이메일 형식에 맞게 작성해주세요]</b>';
+        checkResultList[0] = false;
+      } else {
+        fetch(`/members/check/email/` + emailValue)
+          .then(res => res.json())
+          .then(flag => {
+            if (flag) {
+              $emailInput.style.borderColor = 'red';
+              document.getElementById('emailChk').innerHTML = '<b style="color: red;">[이메일이 중복되었습니다.]</b>';
+              checkResultList[0] = false;
+            } else {
+              $emailInput.style.borderColor = 'skyblue';
+              document.getElementById('emailChk').innerHTML = '<b style="color: skyblue;">[사용가능한 이메일입니다.]</b>';
 
 
-let code = '';
+              let code = '';
 
-document.getElementById('emailAuth').onclick = () => {
-  const email = document.getElementById('email').value.trim();
-  console.log(email);
+              document.getElementById('emailAuth').onclick = () => {
+                const email = document.getElementById('email').value.trim();
+                console.log(email);
 
-  fetch(`/members/email`, {
-      method: `post`,
-      headers: {
-        'Content-type': 'text/plain'
-      },
-      body: email
-    })
-    .then(res => res.text())
-    .then(data => {
-      code = data;
+                fetch(`/members/email`, {
+                    method: `post`,
+                    headers: {
+                      'Content-type': 'text/plain'
+                    },
+                    body: email
+                  })
+                  .then(res => res.text())
+                  .then(data => {
+                    code = data;
 
-      document.getElementById(`email`).readOnly = true;
+                    document.getElementById(`email`).readOnly = true;
 
-      document.getElementById('emailChkInput').disabled = false;
+                    document.getElementById('emailChkInput').disabled = false;
 
-        document.getElementById('emailChkInput').onblur = e => {
-                  const inputCode = e.target.value;
-                  if (inputCode === code) {
-                      document.getElementById('mailCheckMsg').textContent = '인증번호가 일치합니다!';
-                      document.getElementById('mailCheckMsg').style.color = 'skyblue';
-                      e.target.style.display = 'none';
-                      checkResultList[0] = true;
-                  } else {
-                      document.getElementById('mailCheckMsg').textContent = '인증번호를 다시 확인하세요!';
-                      document.getElementById('mailCheckMsg').style.color = 'red';
-                      e.target.focus();
-                  }
-              }
-      alert('인증번호가 전송되었습니다.');
-    })
-    .catch(error => {
-      alert('이메일 전송에 실패했습니다. 이메일을 다시 확인해주세요.');
-    });
-};
-        }
-      });
-  }
-};
+                    document.getElementById('emailChkInput').onblur = e => {
+                      const inputCode = e.target.value;
+                      if (inputCode === code) {
+                        document.getElementById('mailCheckMsg').textContent = '인증번호가 일치합니다!';
+                        document.getElementById('mailCheckMsg').style.color = 'skyblue';
+                        e.target.style.display = 'none';
+                        checkResultList[0] = true;
+                      } else {
+                        document.getElementById('mailCheckMsg').textContent = '인증번호를 다시 확인하세요!';
+                        document.getElementById('mailCheckMsg').style.color = 'red';
+                        e.target.focus();
+                      }
+                    }
+                    alert('인증번호가 전송되었습니다.');
+                  })
+                  .catch(error => {
+                    alert('이메일 전송에 실패했습니다. 이메일을 다시 확인해주세요.');
+                  });
+              };
+            }
+          });
+      }
+    };
 
 
 
@@ -237,22 +243,22 @@ document.getElementById('emailAuth').onclick = () => {
         checkResultList[3] = false;
         return;
       } else {
-         fetch(`/members/check/nickname/` + nickValue)
-               .then(res => res.json())
-               .then(flag => {
-                 if (flag) {
-                   $nickInput.style.borderColor = 'red';
-                   document.getElementById('nickChk').innerHTML = '<b style="color: red;">[닉네임이 중복되었습니다.]</b>';
-                   checkResultList[3] = false;
-                 } else {
-                   $nickInput.style.borderColor = 'black';
-                   document.getElementById('nickChk').innerHTML = '<b style="color: skyblue;">[사용 가능한 닉네임입니다.]</b>';
-                   checkResultList[3] = true;
-                 }
-                })
-                .catch(error => {
-                  console.error('Error checking nickname:', error);
-                });
+        fetch(`/members/check/nickname/` + nickValue)
+          .then(res => res.json())
+          .then(flag => {
+            if (flag) {
+              $nickInput.style.borderColor = 'red';
+              document.getElementById('nickChk').innerHTML = '<b style="color: red;">[닉네임이 중복되었습니다.]</b>';
+              checkResultList[3] = false;
+            } else {
+              $nickInput.style.borderColor = 'black';
+              document.getElementById('nickChk').innerHTML = '<b style="color: skyblue;">[사용 가능한 닉네임입니다.]</b>';
+              checkResultList[3] = true;
+            }
+          })
+          .catch(error => {
+            console.error('Error checking nickname:', error);
+          });
       }
     });
 
@@ -279,33 +285,31 @@ document.getElementById('emailAuth').onclick = () => {
     const $maleButton = document.querySelector('.M');
     const $femaleButton = document.querySelector('.F');
 
-
     function handleButtonClick(selectedButton, unselectedButton) {
-
       const selectedValue = selectedButton.value;
-
       selectedButton.style.backgroundColor = "rgba(4, 25, 44, 0.3)";
-
-
-      unselectedButton.value = "";
-
-
       unselectedButton.style.backgroundColor = "";
-
-
+      unselectedButton.value = ""; // 선택되지 않은 버튼의 값 삭제
       checkResultList[4] = true;
     }
 
-
     $maleButton.addEventListener('click', () => {
-      handleButtonClick($maleButton, $femaleButton);
+      $maleButton.style.backgroundColor = "rgba(4, 25, 44, 0.3)";
+      $maleButton.value="M";
+      $femaleButton.style.backgroundColor = "";
+      $femaleButton.value = ""; // 선택되지 않은 버튼의 값 삭제
+      document.getElementById('gender').value = 'M';
+      checkResultList[4] = true;
     });
-
 
     $femaleButton.addEventListener('click', () => {
-      handleButtonClick($femaleButton, $maleButton);
+      $femaleButton.style.backgroundColor = "rgba(4, 25, 44, 0.3)";
+      $femaleButton.value="F";
+      $maleButton.style.backgroundColor = "";
+      $maleButton.value = ""; // 선택되지 않은 버튼의 값 삭제
+       document.getElementById('gender').value = 'F';
+      checkResultList[4] = true;
     });
-
 
 
     function sample6_execDaumPostcode() {
@@ -357,8 +361,9 @@ document.getElementById('emailAuth').onclick = () => {
           document.getElementById('sample6_address').readOnly = true;
           document.getElementById('sample6_extraAddress').readOnly = true;
 
-
+              document.getElementById('address').value = addr;
           checkResultList[5] = true;
+
         }
       }).open();
     }
