@@ -2,6 +2,7 @@ package com.ohnal.chap.service;
 
 import com.ohnal.chap.dto.request.AutoLoginDTO;
 import com.ohnal.chap.dto.request.LoginRequestDTO;
+import com.ohnal.chap.dto.request.NaverSignUpRequestDTO;
 import com.ohnal.chap.dto.request.SignUpRequestDTO;
 import com.ohnal.chap.dto.response.LoginUserResponseDTO;
 import com.ohnal.chap.entity.Member;
@@ -43,6 +44,11 @@ public class MemberService {
         // 패스워드 인코딩하여 엔터티로 변환해서 전달.
         // String encodedPw = encoder.encode(dto.getPassword());
         // dto.setPassword(encodedPw);
+        memberMapper.save(dto.toEntity(encoder, savePath));
+    }
+
+    public void snsJoin(NaverSignUpRequestDTO dto, String savePath) {
+
         memberMapper.save(dto.toEntity(encoder, savePath));
     }
 
