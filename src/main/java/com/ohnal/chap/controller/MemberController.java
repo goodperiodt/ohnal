@@ -4,6 +4,7 @@ import com.ohnal.chap.dto.request.LoginRequestDTO;
 import com.ohnal.chap.dto.request.SignUpRequestDTO;
 import com.ohnal.chap.entity.Member;
 import com.ohnal.chap.service.LoginResult;
+import com.ohnal.chap.service.MailSenderService;
 import com.ohnal.chap.service.MemberService;
 import com.ohnal.util.FileUtils;
 import com.ohnal.chap.service.MailSenderService;
@@ -12,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.tags.shaded.org.apache.xalan.templates.ElemValueOf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,7 +31,7 @@ public class MemberController {
 
 
     private final MemberService memberService;
-    private final MailSenderService mailsenderService;
+    private final MailSenderService mailSenderService;
 
     @GetMapping("/sign-up")
     public String signUp() {
@@ -54,6 +56,7 @@ public class MemberController {
 
     @PostMapping("/sign-up")
     public String signUp(SignUpRequestDTO dto) {
+        log.info("/members/sign-up: POST");
         String savePath = FileUtils.uploadFile(dto.getProfileImage(), rootPath);
         log.info("save-path: {}", savePath);
 
@@ -109,7 +112,7 @@ public class MemberController {
     public ResponseEntity<?> mailCheck(@RequestBody String email) {
         log.info("이메일 인증 요청 들어옴!: {}", email);
         try {
-            String authNum = mailsenderService.joinEmail(email);
+            String authNum = mailSenderService.joinEmail(email);
             return ResponseEntity.ok().body(authNum);
         } catch (Exception e) {
             e.printStackTrace();
@@ -120,6 +123,7 @@ public class MemberController {
     // my-page로 이동하는 메서드
     @GetMapping("/my-history")
     public String myHistory() {
+        log.info("my-history 페이지 들어옴");
         return "chap/my-history";
     }
 
