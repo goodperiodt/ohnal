@@ -9,4 +9,9 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NaverResponseDTO {
+private String Adress;
+private String NickName;
+private String ProfileImg;
+private String gender;
+
 }

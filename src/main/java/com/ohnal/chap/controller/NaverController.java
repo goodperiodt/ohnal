@@ -74,7 +74,7 @@ public class NaverController {
     naverLoginService.getNaverToken(naverParams);
 
 
-        return "/index";
+        return "redirect:/index";
 
     }
     }

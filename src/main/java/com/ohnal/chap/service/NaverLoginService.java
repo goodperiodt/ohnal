@@ -1,6 +1,7 @@
 package com.ohnal.chap.service;
 
 import com.ohnal.chap.controller.NaverController;
+import com.ohnal.chap.dto.response.NaverResponseDTO;
 import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,7 +30,7 @@ public class NaverLoginService {
 
         String accessToken = getNaverToken(naverParams);
         session.setAttribute("access_token",accessToken);
-
+        log.info("access_token",accessToken);
 
     }
 
@@ -54,12 +55,35 @@ public class NaverLoginService {
         Map<String, Object> responseJSON = (Map<String, Object>) responseEntity.getBody();
         log.info("응답 JSON 데이터: {}", responseJSON);
 
-        String accessToken = (String) responseJSON.get("access_token");
+        String accessToken = (String)responseJSON.get("access_token");
 
         return accessToken;
 
+    }
+
+    private NaverResponseDTO getNaverUserInfo(String accessToken){
+          String RequestUrl = "https://openapi.naver.com/v1/nid/me";
+          HttpHeaders headers = new HttpHeaders();
+          headers.add("Authorization", "Bearer " + accessToken);
+
+          RestTemplate template = new RestTemplate();
+          ResponseEntity<NaverResponseDTO> responseEntity = template.exchange(
+                  RequestUrl, HttpMethod.POST,new HttpEntity<>(headers), NaverResponseDTO.class
+          );
+          NaverResponseDTO responseJSON = responseEntity.getBody();
+          log.info("responseJSON:", responseJSON);
+
+          return responseJSON;
 
     }
+
+
+
+
+
+
+
+
 }
 
 
