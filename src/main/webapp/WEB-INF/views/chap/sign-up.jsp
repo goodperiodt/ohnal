@@ -13,6 +13,29 @@
 <%@include file="../include/header.jsp"%>
 
 <body>
+  <%@include file="../include/header.jsp"%>
+  <div class="snowflakes" aria-hidden="true"> 
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+    <div class="snowflake">❄</div>
+</div>
 
 
   <div class="container">
@@ -93,7 +116,7 @@
       </div>
     </form>
   </div>
-
+  
   <input type="file" multiple>
 
   <%@include file="../include/footer.jsp"%>
