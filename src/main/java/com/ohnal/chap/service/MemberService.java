@@ -28,13 +28,8 @@ import java.time.LocalDateTime;
 import static com.ohnal.chap.service.LoginResult.NO_PW;
 import static com.ohnal.chap.service.LoginResult.SUCCESS;
 import static com.ohnal.util.LoginUtils.*;
-import org.springframework.web.util.WebUtils;
 
-import java.time.LocalDateTime;
 import java.util.Map;
-
-import static com.ohnal.chap.service.LoginResult.NO_PW;
-import static com.ohnal.util.LoginUtils.*;
 
 
 @Service
@@ -102,6 +97,11 @@ public class MemberService {
     // 중복 값 체크
     public boolean checkDuplicateValue(String type, String keyword) {
         return memberMapper.isDuplicate(type, keyword);
+    }
+
+    public void changePassword(String email, String password){
+        String encodedPw = encoder.encode(password);
+        memberMapper.changePw(email, encodedPw);
     }
 
     public void maintainLoginState(HttpSession session, String account) {

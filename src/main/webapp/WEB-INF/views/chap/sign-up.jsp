@@ -367,7 +367,6 @@
     }
 
 
-
     document.getElementById('btn_submit_button').onclick = e => {
       const $form = document.getElementById('signUpForm');
 

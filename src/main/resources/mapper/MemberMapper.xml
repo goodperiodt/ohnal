@@ -26,6 +26,12 @@
     </if>
 </select>
 
+    <update id="changePw">
+        UPDATE tbl_member
+        SET password = #{password}
+        WHERE email = #{email}
+    </update>
+
     <update id="saveAutoLogin">
         UPDATE tbl_member
         SET session_id= ${sessionId},limit_time = #{limitTime}
