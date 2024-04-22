@@ -25,9 +25,7 @@
 
           <img id="imagePreview" src="/assets/img/anonymous.jpg" alt="이미지 미리보기">
           <div class="btn_image">
-
               프로필 사진
-
           </div>
           <input type="file" id="selectFile" name="profileImage" accept="image/*" style="display: none;">
 
@@ -93,6 +91,8 @@
       </div>
     </form>
   </div>
+
+  <input type="file" multiple>
 
   <%@include file="../include/footer.jsp"%>
   <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
@@ -367,6 +367,7 @@
     }
 
 
+
     document.getElementById('btn_submit_button').onclick = e => {
       const $form = document.getElementById('signUpForm');
 
@@ -374,7 +375,6 @@
         alert('입력란을 다시 확인해주세요');
       } else {
         $form.submit();
-        alert('회원가입이 완료되었습니다.');
       }
     }
   </script>

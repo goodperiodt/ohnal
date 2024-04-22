@@ -1,15 +1,16 @@
 package com.ohnal.chap.controller;
 
+import com.ohnal.chap.common.Page;
+import com.ohnal.chap.common.PageMaker;
 import com.ohnal.chap.dto.request.LoginRequestDTO;
 import com.ohnal.chap.dto.request.SignUpRequestDTO;
+import com.ohnal.chap.dto.response.BoardListResponseDTO;
 import com.ohnal.chap.dto.response.LoginUserResponseDTO;
 import com.ohnal.chap.entity.Member;
-import com.ohnal.chap.service.BoardService;
-import com.ohnal.chap.service.LoginResult;
-import com.ohnal.chap.service.MailSenderService;
-import com.ohnal.chap.service.MemberService;
+import com.ohnal.chap.service.*;
 import com.ohnal.util.FileUtils;
 import com.ohnal.chap.service.MailSenderService;
+import com.ohnal.util.LoginUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,11 +21,15 @@ import org.eclipse.tags.shaded.org.apache.xalan.templates.ElemValueOf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import static com.ohnal.util.LoginUtils.LOGIN_KEY;
-import static com.ohnal.util.LoginUtils.isAutoLogin;
+import java.util.Collections;
+import java.util.List;
+
+import static com.ohnal.util.LoginUtils.*;
 
 @Controller
 @RequestMapping("/members")
@@ -32,12 +37,12 @@ import static com.ohnal.util.LoginUtils.isAutoLogin;
 @Slf4j
 public class MemberController {
 
-    @Value("${file.upload.root-path}")
-    private String rootPath;
-
-
     private final MemberService memberService;
     private final MailSenderService mailSenderService;
+    private final BoardService boardService;
+
+    @Value("${file.upload.root-path}")
+    private String rootPath;
 
     @GetMapping("/sign-up")
     public String signUp() {
@@ -160,13 +165,49 @@ public class MemberController {
             return ResponseEntity.internalServerError().body("이메일 전송 과정에서 에러 발생!");
         }
     }
+    // 로그아웃 요청 처리
+    @GetMapping("/sign-out")
+    public String signOut(HttpSession session,
+                          HttpServletRequest request,
+                          HttpServletResponse response) {
+        log.info("members/sign-out: Get");
 
-        // my-history로 이동하는 메서드
-//    @GetMapping("/my-history")
-//    public String myHistory() {
-//        log.info("my-history 페이지 들어옴");
-//        return "chap/my-history";
-//    }
 
+        // 로그아웃 처리
+        // 1. 세션에서 로그인 정보 기록 삭제
+        session.removeAttribute("login");
 
+        // 2. 세션 전체 무효화(초기화)
+        session.invalidate();
+
+        return "redirect:/index";
     }
+
+    //-----------------------my-history-----------------------
+
+    // my-page로 이동하는 메서드
+    @GetMapping("/my-history")
+    public String myHistory(HttpSession session, Page page, Model model) {
+        log.info("my-history 페이지 들어옴");
+
+        String loginUserEmail = getCurrentLoginMemberEmail(session);
+        log.info("loginUserEmail: {}", loginUserEmail);
+        model.addAttribute("loginUserEmail", loginUserEmail);
+
+        // 처음 들어왔을 때, my-history 페이지에서
+        // 작성한 글 버튼 눌렀을 때 보여지는 화면이 기본 값이다.
+        List<BoardListResponseDTO> allMyPosts = boardService.findAllByEmail(loginUserEmail, page);
+
+        PageMaker maker = new PageMaker(page, boardService.getMyPostsCount(loginUserEmail));
+        log.info("maker: {}", maker);
+        log.info("조회한 게시물 총량: {}", String.valueOf(maker.getTotalCount()));
+
+        model.addAttribute("allMyPosts", allMyPosts);
+        model.addAttribute("maker", maker);
+
+        return "chap/my-history";
+    }
+
+
+
+}
