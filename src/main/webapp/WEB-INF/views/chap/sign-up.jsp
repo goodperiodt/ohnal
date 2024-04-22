@@ -13,29 +13,11 @@
 <%@include file="../include/header.jsp"%>
 
 <body>
-  <%@include file="../include/header.jsp"%>
-  <div class="snowflakes" aria-hidden="true"> 
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❄</div>
-</div>
+ 
+  <h1>Interaction</h1>
+  <canvas class="canvas" width="600" height="400"></canvas>
+
+
 
 
   <div class="container">
