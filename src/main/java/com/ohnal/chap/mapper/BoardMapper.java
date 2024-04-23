@@ -2,6 +2,7 @@ package com.ohnal.chap.mapper;
 
 import com.ohnal.chap.common.Page;
 import com.ohnal.chap.common.Search;
+import com.ohnal.chap.dto.request.BoardLikeRequestDTO;
 import com.ohnal.chap.entity.Board;
 import com.ohnal.chap.entity.Reply;
 import org.apache.ibatis.annotations.Mapper;
@@ -39,6 +40,15 @@ public interface BoardMapper {
     // my-history 에서 작성 댓글 버튼 누를 때, 작동하는 sql문
     List<Board> myWriteReply(String email);
 
+    // 글 삭제
     void delete(int bno);
-
+    
+    // 좋아요 내역 확인
+    boolean findLike(BoardLikeRequestDTO dto);
+    
+    // 좋아요
+    void insertLike(BoardLikeRequestDTO dto);
+    
+    // 좋아요 취소
+    void deleteLike(BoardLikeRequestDTO dto);
 }
