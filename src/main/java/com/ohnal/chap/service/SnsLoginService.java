@@ -25,6 +25,15 @@ import java.util.Map;
 public class SnsLoginService {
     private final MemberService memberService;
 
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
+    private String clientId;
+
+    @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
+    private String redirectUri;
+
+    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
+    private String clientSecret;
+
 
 
     public void kakaoLogin(Map<String, String> params , HttpSession session) {
@@ -137,8 +146,8 @@ public class SnsLoginService {
         String code = params.get("code");
 
 
-        String accessToken = GoogleAccessToken(code, "899941683835-5c1mu4ta7i6bb281hhst302vt5qlolp0.apps.googleusercontent.com",
-                "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",
+        String accessToken = GoogleAccessToken(code, clientId,
+                clientSecret,
                 "http://localhost:8282/index");
 
 
