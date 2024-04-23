@@ -27,18 +27,21 @@ public class GoogleController {
 
     @GetMapping("/google/login")
     public String googleLogin() {
-        String authorizationUri = "https://accounts.google.com/o/oauth2/auth";
-        String scope = "openid email profile";
-        String responseType = "code";
-        String uri = authorizationUri + "?client_id=" + clientId + "&redirect_uri=" + redirectUri +
-                "&response_type=" + responseType + "&scope=" + scope;
+        String uri = "https://accounts.google.com/o/oauth2/auth";
+        uri += "?client_id=" + clientId;
+        uri += "&redirect_uri=" + redirectUri;
+        uri += "&response_type=code";
+        uri+=  "openid email profile";
         return "redirect:" + uri;
     }
 
     @GetMapping("/auth/google")
     public String snsGoogle(@RequestParam("code") String code, HttpSession session) {
         Map<String, String> params = new HashMap<>();
+        params.put("appKey",  clientId);
+        params.put("redirect", redirectUri);
         params.put("code", code);
+
         snsLoginService.googleLogin(params, session);
         return "redirect:/index";
     }
