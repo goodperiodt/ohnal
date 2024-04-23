@@ -1,5 +1,6 @@
 package com.ohnal.chap.controller;
 
+import com.mysql.cj.Session;
 import com.ohnal.chap.common.PageMaker;
 import com.ohnal.chap.common.Search;
 import com.ohnal.chap.dto.request.BoardLikeRequestDTO;
@@ -8,6 +9,7 @@ import com.ohnal.chap.dto.response.BoardListResponseDTO;
 import com.ohnal.chap.dto.response.BoardReplyResponseDTO;
 import com.ohnal.chap.entity.Board;
 import com.ohnal.chap.service.BoardService;
+import com.ohnal.util.LoginUtils;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,11 +38,12 @@ public class BoardContoller {
     
     // 게시판 이동
     @GetMapping("/list")
-    public String boardList(Model model, @ModelAttribute("s") Search page) {
+    public String boardList(Model model, @ModelAttribute("s") Search page, HttpSession session) {
         log.info("/board/list: GET!");
         log.info(String.valueOf(page));
-        
-        List<BoardListResponseDTO> dtoList = boardService.findAll(page);
+        String email = LoginUtils.getCurrentLoginMemberEmail(session);
+        log.info("email: {}", email);
+        List<BoardListResponseDTO> dtoList = boardService.findAll(page, email);
         log.info(dtoList.toString());
         PageMaker pageMaker = new PageMaker(page, boardService.getCount());
         
@@ -127,16 +130,19 @@ public class BoardContoller {
     
     // 좋아요 기능
     @PostMapping("/like")
-    public void like(@RequestBody BoardLikeRequestDTO dto) {
+    public ResponseEntity<?> like(@RequestBody BoardLikeRequestDTO dto) {
+
+        log.info(dto.toString());
         
         boolean flag = boardService.findLike(dto);
         
         if (!flag) {
             boardService.insertLike(dto);
+
         } else {
             boardService.deleteLike(dto);
         }
-        
+        return ResponseEntity.ok().body("success");
     }
 
 }
