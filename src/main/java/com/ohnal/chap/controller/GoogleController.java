@@ -25,18 +25,19 @@ public class GoogleController {
     @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
     private String redirectUri;
 
+
     @GetMapping("/google/login")
     public String googleLogin() {
-        String uri = "https://accounts.google.com/o/oauth2/auth";
-        uri += "?client_id=" + clientId;
-        uri += "&redirect_uri=" + redirectUri;
-        uri += "&response_type=code";
-        uri+=  "openid email profile";
+        String authorizationUri = "https://accounts.google.com/o/oauth2/auth";
+        String scope = "openid email profile";
+        String responseType = "code";
+        String uri = authorizationUri + "?client_id=" + clientId + "&redirect_uri=" + redirectUri +
+                "&response_type=" + responseType + "&scope=" + scope;
         return "redirect:" + uri;
     }
 
     @GetMapping("/auth/google")
-    public String snsGoogle(@RequestParam("code") String code, HttpSession session) {
+    public String snsGoogle( String code, HttpSession session) {
         Map<String, String> params = new HashMap<>();
         params.put("appKey",  clientId);
         params.put("redirect", redirectUri);
