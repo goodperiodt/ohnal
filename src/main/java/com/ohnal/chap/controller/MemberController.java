@@ -1,25 +1,36 @@
 package com.ohnal.chap.controller;
 
+import com.ohnal.chap.common.Page;
+import com.ohnal.chap.common.PageMaker;
 import com.ohnal.chap.dto.request.LoginRequestDTO;
 import com.ohnal.chap.dto.request.SignUpRequestDTO;
+import com.ohnal.chap.dto.response.BoardListResponseDTO;
+import com.ohnal.chap.dto.response.LoginUserResponseDTO;
 import com.ohnal.chap.entity.Member;
-import com.ohnal.chap.service.LoginResult;
-import com.ohnal.chap.service.MailSenderService;
-import com.ohnal.chap.service.MemberService;
+import com.ohnal.chap.service.*;
 import com.ohnal.util.FileUtils;
 import com.ohnal.chap.service.MailSenderService;
+import com.ohnal.util.LoginUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.tags.shaded.org.apache.xalan.templates.ElemValueOf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Collections;
+import java.util.List;
+
+import static com.ohnal.util.LoginUtils.*;
 
 @Controller
 @RequestMapping("/members")
@@ -27,12 +38,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Slf4j
 public class MemberController {
 
-    @Value("${file.upload.root-path}")
-    private String rootPath;
-
-
     private final MemberService memberService;
     private final MailSenderService mailSenderService;
+    private final BoardService boardService;
+
+    @Value("${file.upload.root-path}")
+    private String rootPath;
 
     @GetMapping("/sign-up")
     public String signUp() {
@@ -112,6 +123,38 @@ public class MemberController {
 
         response.addCookie(cookie);
     }
+
+    // 로그아웃 요청 처리
+    @GetMapping("/sign-out")
+    public String signOut(HttpSession session,
+                          HttpServletRequest request,
+                          HttpServletResponse response) {
+        log.info("/member/sign-out: GET!");
+
+        // 자동 로그인 중인지 확인
+        if (isAutoLogin(request)) {
+            // 쿠키를 삭제해주고 DB 데이터도 원래대로 돌려놓아야 한다.
+            memberService.autoLoginClear(request, response);
+        }
+
+        /*
+        // sns 로그인 상태인지를 확인
+        LoginUserResponseDTO dto = (LoginUserResponseDTO) session.getAttribute(LOGIN_KEY);
+        if (dto.getLoginMethod().equals("KAKAO")) {
+            memberService.kakaoLogout(dto, session);
+        }
+         */
+
+        // 세션에서 로그인 정보 기록 삭제
+        session.removeAttribute("login");
+
+        // 세션 전체 무효화 (초기화)
+        session.invalidate();
+
+        return "redirect:/members/sign-in";
+
+    }
+
     // 이메일 인증
     @PostMapping("/email")
     @ResponseBody
@@ -125,33 +168,53 @@ public class MemberController {
             return ResponseEntity.internalServerError().body("이메일 전송 과정에서 에러 발생!");
         }
     }
-    // 로그아웃 요청 처리
-    @GetMapping("/sign-out")
-    public String signOut(HttpSession session,
-                          HttpServletRequest request,
-                          HttpServletResponse response) {
-        log.info("members/sign-out: Get");
 
+    //-----------------------my-history-----------------------
 
-        // 로그아웃 처리
-        // 1. 세션에서 로그인 정보 기록 삭제
-        session.removeAttribute("login");
-
-        // 2. 세션 전체 무효화(초기화)
-        session.invalidate();
-
-        return "redirect:/index";
-    }
-
-    //---------my-history
-
-    // my-page로 이동하는 메서드
+    // my-history로 이동하는 메서드와 내가 작성한 글 버튼 누르면 작동하는 메서드
     @GetMapping("/my-history")
-    public String myHistory() {
+    public String myHistory(HttpSession session, @ModelAttribute("s")Page page, Model model) {
         log.info("my-history 페이지 들어옴");
+        log.info("page: {}", page);
+        log.info("s: {}", "s");
+
+        String email = getCurrentLoginMemberEmail(session); // 사용자 email 얻어옴
+        log.info("email: {}", email);
+
+        // 처음 들어왔을 때, my-history 페이지에서
+        // 작성한 글 버튼 눌렀을 때 보여지는 화면이 기본 값이다.
+        List<BoardListResponseDTO> myPosts = boardService.findAllByEmail(email, page);
+
+        PageMaker maker = new PageMaker(page, boardService.getMyPostsCount(email));
+        log.info("maker: {}", maker);
+        log.info("내가 작성한 글 목록 개수: {}", maker.getTotalCount());
+        log.info("내가 작성한 글 목록: {}", myPosts);
+
+        model.addAttribute("myPosts", myPosts); // 내가 작성한 글 목록을 모델에 담아
+        model.addAttribute("maker", maker); // 페이징 처리된 객체를 모델에 담아
+
         return "chap/my-history";
     }
 
+    @GetMapping("/my-history/find-my-comments")
+    public String findMyComments(HttpSession session, @ModelAttribute("s")Page page, Model model) {
+        log.info("my-history 페이지에서 작성 댓글(버튼) 누름");
 
+        String email = getCurrentLoginMemberEmail(session); // 사용자 email 얻어옴
+        log.info("email: {}", email);
+
+        // 여기서 myPosts는 내가 작성한 댓글의 글들의 정보를 담은 List컬렉션
+        List<BoardListResponseDTO> myPosts = boardService.findMyComments(email);
+
+        PageMaker maker = new PageMaker(page, boardService.getMyCommentsCount(email));
+        log.info("maker: {}", maker);
+        log.info("내가 작성한 댓글 개수: {}", maker.getTotalCount());
+        log.info("내가 작성한 댓글 목록: {}", myPosts);
+
+        model.addAttribute("myPosts", myPosts); // 내가 작성한 댓글 목록을 모델에 담아
+        model.addAttribute("maker", maker); // 페이징 처리된 객체를 모델에 담아
+
+        return "chap/my-history";
+    }
 
 }

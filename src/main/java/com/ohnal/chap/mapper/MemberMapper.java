@@ -12,10 +12,12 @@ public interface MemberMapper {
 
     Member findMember(String email);
 
+    void changePw(@Param("email") String email, @Param("password") String password);
+
     boolean isDuplicate(@Param("type")String type,@Param("keyword")String keyword);
     void saveAutoLogin(AutoLoginDTO build);
 
     Member findMemberByCookie(String sessionId);
 
-
+    void modify(Member member);
 }

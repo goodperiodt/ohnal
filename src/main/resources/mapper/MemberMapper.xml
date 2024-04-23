@@ -12,7 +12,7 @@
 
     <select id="findMember" resultType="member">
         SELECT * FROM tbl_member
-        WHERE email=#{email}
+        WHERE email = #{email}
     </select>
 
 <select id="isDuplicate" resultType="boolean">
@@ -26,6 +26,12 @@
     </if>
 </select>
 
+    <update id="changePw">
+        UPDATE tbl_member
+        SET password = #{password}
+        WHERE email = #{email}
+    </update>
+
     <update id="saveAutoLogin">
         UPDATE tbl_member
         SET session_id= ${sessionId},limit_time = #{limitTime}
@@ -38,4 +44,12 @@
         FROM tbl_member
         WHERE session_id = #{sessionId}
     </select>
+
+    <update id="modify">
+        UPDATE tbl_member
+        SET nickname = #{nickname}, address = #{address},
+        gender = #{gender}, password = #{password},
+        profile_image = #{profileImage}
+        WHERE email = #{email}
+    </update>
 </mapper>
