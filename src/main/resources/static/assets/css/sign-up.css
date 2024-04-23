@@ -4,16 +4,23 @@
   font-weight: normal;
   font-style: normal;
 }
+body{
+  background-color: black;
+  
+}
 
 .container {
     margin-top: 120px;
     font-family: 'YEONGJUSeonbiTTF';
+    background-color: black;
 }
 
 p.font {
   margin: 10px;
   font-weight: 700;
+  color: white;
 }
+
 
 .inner {
   width: 80%;
@@ -31,6 +38,7 @@ p.font {
   margin-bottom: 10px;
   border-radius: 10px;
   margin-top: 7px;
+  color: black;
 }
 
 .address {
@@ -46,17 +54,31 @@ p.font {
 .btn_gender {
   position: relative;
   left: 30%;
-  border-radius: 5px;
+  /* border-radius: 5px; */
   height: 50px;
   width: 100px;
-  border: 1px solid lightgray;
+  /* border: 1px solid lightgray; */
   margin-top: 20px;
-  cursor: pointer;
+  /* cursor: pointer; */
   justify-content: center;
+  
+  cursor: pointer;
+  transition: background-color 0.4s;
+  color: black;
+  border: 3px solid white;
+  border-radius:10px;
+  box-shadow:inset 0 0 10px 2px black,0 0 10px 2px black;
 }
-.btn_gender:hover{
-  background-color: rgba(39, 185, 10, 0.3);
+.btn_gender.m:hover{
+    transition:0.5s;
+    box-shadow:inset 0 0 10px 2px blue,0 0 10px 2px blue;
 }
+.btn_gender.f:hover{
+    transition:0.5s;
+    box-shadow:inset 0 0 10px 2px rgb(234, 19, 253),0 0 10px 2px rgb(226, 82, 195);
+}
+
+
 #emailAuth{
  background-color: #007bff;
  color: white;
@@ -67,7 +89,15 @@ p.font {
  transition: background-color 0.4s;
 }
 #emailAuth:hover{
- background-color: rgba(39, 185, 10, 0.3);
+   font-weight: bold;
+  background-color: aquamarine;
+  box-shadow: 0 0 8px aqua,
+  0 0 28px aqua,
+  0 0 58px aqua,
+  0 0 208px aqua;
+  overflow: hidden;
+  transition: background-color 0.3s ease-in-out; 
+ 
 }
 #emailChkInput{
 width:300px;
@@ -77,22 +107,23 @@ width:300px;
   position: relative;
   top: 30px;
   left: 30%;
-  background-color: skyblue;
-  color: white;
   padding-top: 14px;
   padding-left: 62px;
   font-size: 16px;
-  border: none;
-  border-radius: 5px;
   width: 200px;
   height: 50px;
   margin-bottom:113px;
   cursor: pointer;
   transition: background-color 0.4s;
+  color: black;
+  border: 3px solid white;
+  border-radius:10px;
+  box-shadow:inset 0 0 10px 2px black,0 0 10px 2px black;
 }
 
 #btn_submit_button:hover {
-  background-color: rgba(39, 185, 10, 0.3);
+  box-shadow:inset 0 0 10px 2px yellow,0 0 10px 2px yellow;
+  transition: 0.5s;
 }
 .image_container {
   position: absolute;
@@ -116,7 +147,14 @@ width:300px;
 }
 
 .btn_image:hover {
-  background-color: rgba(39, 185, 10, 0.3);
+  font-weight: bold;
+  background-color: aquamarine;
+  box-shadow: 0 0 8px aqua,
+  0 0 28px aqua,
+  0 0 58px aqua,
+  0 0 208px aqua;
+  overflow: hidden;
+  transition: background-color 0.3s ease-in-out;
 }
 
 .btn_image label {

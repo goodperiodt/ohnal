@@ -14,12 +14,6 @@
 
 <body>
  
-  <h1>Interaction</h1>
-  <canvas class="canvas" width="600" height="400"></canvas>
-
-
-
-
   <div class="container">
 
     <form action="/members/sign-up" name="signup" id="signUpForm" method="post" enctype="multipart/form-data">
@@ -34,7 +28,7 @@
               프로필사진
             </label>
           </div>
-          <input type="file" id="selectFile" name="profileImage" accept="image/*" style="display: none;">
+          <input type="file" id="selectFile" name="profileImage" accept="image/*" style="display: none; color: white;">
 
         </div>
 
@@ -384,6 +378,7 @@
         $form.submit();
       }
     }
+
   </script>
 </body>
 
