@@ -29,25 +29,17 @@ document.addEventListener("DOMContentLoaded", function () {
 const $cardContainer = document.querySelector('.card-container');
 
 $cardContainer.onclick = e => {
-  const URL = '/board/detail/';
+
   const $card = e.target.closest('.select-card');
   const $likeEmail = e.target.closest('.card-wrapper').dataset.email;
+  const $likeNo = e.target.closest('.card-wrapper').dataset.likeNo;
   if ($card) {
 
     const bno = $card.dataset.bno;
     const $like = e.target.closest('.like-icon');
-
+    const URL = '/board/detail/' + bno;
     if ($like) {
-      if ($likeEmail !== '') {
-        const $likeIcon = $like.querySelector('img');
-        if ($likeIcon.getAttribute('src').endsWith('fill-heart.svg')) {
-          $likeIcon.setAttribute('src', '/assets/img/heart.svg');
-        } else {
-          $likeIcon.setAttribute('src', '/assets/img/fill-heart.svg');
-        };
-        like($likeEmail, bno);
-      };
-
+      toggleHeart($likeEmail, $like, bno);
     } else {
 
       if (e.target.matches('button')) {
@@ -60,10 +52,21 @@ $cardContainer.onclick = e => {
       } else {
 
         console.log(bno);
-        fetch(URL + bno)
+        fetch(URL)
           .then(res => res.json())
           .then(data => {
-
+            let src;
+            console.log($likeNo);
+            if ($likeEmail !== '') {
+              if ($likeNo !== 0) {
+                src = '/assets/img/fill-heart.svg';
+              } else {
+                src = '/assets/img/heart.svg';
+              };
+            } else {
+              src = '/assets/img/heart.svg';
+            }
+            const $heart = document.querySelector('.modal .heart');
             console.log(data);
             document.querySelector('.modal .card').dataset.bno = bno;
             document.querySelector('.modal .card-account').textContent = data.nickname;
@@ -76,29 +79,69 @@ $cardContainer.onclick = e => {
             document.querySelector('.modal .weather').textContent = data.weatherTag;
             document.querySelector('.modal .time-stamp').textContent = data.regDate;
             document.querySelector('.modal .profile-image').setAttribute('src', '/display' + data.profileImage);
+            $heart.setAttribute('src', src);
+            $heart.setAttribute('data-email', $likeEmail)
+
             document.body.style.overflow = 'hidden';
 
           });
+      }
 
-        document.getElementById('modalBtn').click();
-        fetchGetReplies(bno);
-
-      };
-
-
+      document.getElementById('modalBtn').click();
+      fetchGetReplies(bno);
 
     };
-  };
 
+
+
+  };
 };
 
-function like(likeEmail, bno) {
+
+document.querySelector('.modal .heart').onclick = e => {
+  const $likeEmail = e.target.dataset.email;
+  const $like = e.target;
+  const bno = document.querySelector('.select-card').dataset.bno;
+  detailToggleHeart($likeEmail, $like, bno);
+
+}
+
+function toggleHeart(likeEmail, liked, bno) {
+  console.log(likeEmail);
+  console.log(liked);
+  console.log(bno);
+  if (likeEmail !== '') {
+    const likeIcon = liked.querySelector('img');
+    if (likeIcon.getAttribute('src').endsWith('fill-heart.svg')) {
+      likeIcon.setAttribute('src', '/assets/img/heart.svg');
+    } else {
+      likeIcon.setAttribute('src', '/assets/img/fill-heart.svg');
+    };
+    like(likeEmail, bno);
+  };
+}
+
+function detailToggleHeart(likeEmail, liked, bno) {
+  console.log(likeEmail);
+  console.log(liked);
+  console.log(bno);
+  if (likeEmail !== '') {
+    if (liked.getAttribute('src').endsWith('fill-heart.svg')) {
+      liked.setAttribute('src', '/assets/img/heart.svg');
+    } else {
+      liked.setAttribute('src', '/assets/img/fill-heart.svg');
+    };
+    like(likeEmail, bno);
+  };
+}
+
+function like(email, bNum) {
 
   const URL = '/board/like';
 
   const payLoad = {
-    email: likeEmail,
-    bno: bno
+    email: email,
+    bno: bNum
   };
 
   console.log(payLoad);
@@ -112,7 +155,7 @@ function like(likeEmail, bno) {
   };
 
   fetch(URL, requestInfo)
-  .then(res => console.log(res));
+    .then(res => console.log(res));
 
 };
 

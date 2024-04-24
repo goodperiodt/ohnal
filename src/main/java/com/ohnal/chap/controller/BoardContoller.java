@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static com.ohnal.util.FileUtils.uploadFile;
+import static com.ohnal.util.LoginUtils.getCurrentLoginMemberEmail;
 
 @Controller
 @Slf4j
@@ -40,10 +41,12 @@ public class BoardContoller {
     public String boardList(Model model, @ModelAttribute("s") Search page, HttpSession session) {
         log.info("/board/list: GET!");
         log.info(String.valueOf(page));
-        String email = LoginUtils.getCurrentLoginMemberEmail(session);
+        String email = getCurrentLoginMemberEmail(session);
         log.info("email: {}", email);
         List<BoardListResponseDTO> dtoList = boardService.findAll(page, email);
         log.info(dtoList.toString());
+        int likeNo = dtoList.get(0).getLikeNo();
+        log.info(String.valueOf(likeNo));
         PageMaker pageMaker = new PageMaker(page, boardService.getCount());
         
         model.addAttribute("bList", dtoList);

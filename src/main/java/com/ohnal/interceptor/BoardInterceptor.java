@@ -1,7 +1,6 @@
 package com.ohnal.interceptor;
 
 import com.ohnal.chap.mapper.BoardMapper;
-import com.ohnal.util.LoginUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -32,6 +31,8 @@ public class BoardInterceptor implements HandlerInterceptor {
             response.sendRedirect("/members/sign-in");
             return false;
         }
+        
+        
 
         // 삭제 요청이 들어올 때 서버에서 다시 한 번 내가 쓴 글인이지 확인한다.
         // 현재 요청이 삭제 요청인지 확인한다
@@ -42,7 +43,7 @@ public class BoardInterceptor implements HandlerInterceptor {
 
             // 글 번호(bno)를 통해 해당 글을 누가 작성했는지 알아내기
             // 누가 작성했는지의 기준을 email로 우선 작성했다.
-            String email = boardMapper.findOne(Integer.valueOf(bno)).getEmail();
+            String email = getCurrentLoginMemberEmail(session);
 
             // 만약 내가 쓴 글이 아니라면 접근 권한이 없다는 피드백을 주어야 한다.
             if(!isMine(session, email)) {
