@@ -35,7 +35,7 @@
 
         <!-- 카드 복사 -->
         <c:forEach var="b" items="${bList}">
-            <div class="card-wrapper" data-email="${login.email}">
+            <div class="card-wrapper" data-email="${login.email}" data-like-no="${b.likeNo}">
                 <section class="card select-card" data-bno="${b.boardNo}">
                     <div class="card-title-wrapper">
                         <div class="profile-box">
@@ -190,19 +190,12 @@
                             <div class="li-ha">
 
                                 <div class="like-icon">
-                                    <c:choose>
-                                        <c:when test="${b.likeNo != 0 && b.likeEmail == login.email}">
-                                            <img class="heart" src="/assets/img/fill-heart.svg" alt="좋아요 버튼">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img class="heart" src="/assets/img/heart.svg" alt="좋아요 버튼">
-                                        </c:otherwise>
-                                    </c:choose>
+                                    <img class="heart" src="" alt="좋아요 버튼">
                                     <div class="hashtag-wrapper">
                                         <span class="hashtag location"></span>
                                         <span class="hashtag weather"></span>
                                     </div>
-                                    
+
                                     <span class="like-count count"></span>
                                     &nbsp&nbsp&nbsp
                                     <span class="reply-count count"></span>
@@ -211,16 +204,16 @@
                                 </div>
                             </div>
 
-                            
-                            
-                            
+
+
+
                             <div class="replys">
                                 <p class="content-comments content"></p>
                                 <div class='reply-wrapper'>
-                                    
+
                                 </div>
                             </div>
-                            
+
                             <form id="commentFrm" class="write-reply">
                                 <div class="write-wrapper">
                                     <input name="nickname" class="nickname" value="${login.nickname}" hidden></input>
@@ -230,7 +223,7 @@
                                 </div>
                             </form>
                         </div>
-                            
+
                     </div>
 
                 </section>
