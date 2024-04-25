@@ -6,6 +6,7 @@ import com.ohnal.chap.dto.request.BoardLikeRequestDTO;
 import com.ohnal.chap.dto.request.BoardWriteRequestDTO;
 import com.ohnal.chap.dto.response.BoardListResponseDTO;
 import com.ohnal.chap.dto.response.BoardReplyResponseDTO;
+import com.ohnal.chap.dto.response.BoardWriteDTO;
 import com.ohnal.chap.entity.Board;
 import com.ohnal.chap.entity.Reply;
 import com.ohnal.chap.mapper.BoardMapper;
@@ -22,9 +23,9 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class BoardService {
-    
+
     private final BoardMapper mapper;
-    
+
     // 게시글 전체 조회
     public List<BoardListResponseDTO> findAll(Search page, String email) {
         List<BoardListResponseDTO> dtoList = new ArrayList<>();
@@ -33,52 +34,52 @@ public class BoardService {
             BoardListResponseDTO dto = new BoardListResponseDTO(board);
             dtoList.add(dto);
         }
-        
+
         return dtoList;
     }
 
     // 게시글 등록
-    public void save(BoardWriteRequestDTO dto, HttpSession session, String savePath) {
+    public void save(BoardWriteDTO dto, HttpSession session, String savePath) {
         Board board = new Board(dto, savePath);
         log.info(dto.toString());
-        
+
 //        board.setEmail("user123@naver.com");
         board.setEmail(LoginUtils.getCurrentLoginMemberEmail(session));
-        
+
         mapper.save(board);
     }
-    
+
     // 페이징
     public int getCount() {
         return mapper.getCount();
     }
-    
+
     // 게시글 하나 조회
     public Board findOne(int bno) {
         mapper.updateCount(bno, "view");
         return mapper.findOne(bno);
     }
-    
+
     // 댓글 목록 불러오기
     public List<BoardReplyResponseDTO> getReplyList(int bno) {
         List<BoardReplyResponseDTO> dtoList = new ArrayList<>();
         List<Reply> replyList = mapper.replyList(bno);
-        
+
         for (Reply reply : replyList) {
             BoardReplyResponseDTO dto = new BoardReplyResponseDTO(reply);
             dtoList.add(dto);
         }
-        
+
         return dtoList;
     }
-    
+
     // 댓글 작성 기능
     public void writeReply(ReplyPostRequestDTO dto) {
-        
+
         Reply reply = dto.toEntity();
-        
+
         mapper.replySave(reply);
-        
+
         mapper.updateCount(dto.getBno(), "replies");
     }
 
@@ -112,18 +113,18 @@ public class BoardService {
         mapper.delete(bno);
 
     }
-    
+
     // 게시글에 이용자가 좋아요를 누른적이 있는지 확인하는 기능
     public boolean findLike(BoardLikeRequestDTO dto) {
         return mapper.findLike(dto);
     }
-    
+
     // 좋아요 기능
     public void insertLike(BoardLikeRequestDTO dto) {
         mapper.insertLike(dto);
         mapper.updateCount(dto.getBno(), "likePlus");
     }
-    
+
     // 좋아요 취소 기능
     public void deleteLike(BoardLikeRequestDTO dto) {
         mapper.deleteLike(dto);
@@ -154,5 +155,25 @@ public class BoardService {
     // 내가 작성한 댓글 수를 가진 게시물을 불러오는 쪽으로 택함.
     public int getMyCommentsCount(String email) {
         return mapper.getMyCommentsCount(email);
+    }
+
+    public List<BoardListResponseDTO> findMyLikePosts(String email) {
+        List<BoardListResponseDTO> dtoList = new ArrayList<>();
+
+        List<Board> boardList = mapper.findMyLikePosts(email);
+
+        log.info("boardList: {}", boardList);
+
+        for (Board board : boardList) {
+            BoardListResponseDTO dto = new BoardListResponseDTO(board);
+            dtoList.add(dto);
+        }
+
+        log.info("내가 좋아요한 글이 작성된 게시글 목록: {}", dtoList);
+        return dtoList;
+    }
+
+    public int getMyLikeCount(String email) {
+        return mapper.getMyLikeCount(email);
     }
 }

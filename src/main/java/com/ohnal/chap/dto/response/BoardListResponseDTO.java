@@ -13,7 +13,7 @@ import java.time.temporal.ChronoUnit;
 @Getter @ToString
 @EqualsAndHashCode
 public class BoardListResponseDTO {
-    
+
     private int boardNo;
     private String nickname;
     private String content;
@@ -40,12 +40,21 @@ public class BoardListResponseDTO {
         this.likeCount = makePrettierLikeCount(board.getLikeCount());
         this.replyCount = makePrettierReplyCount(board.getReplyCount());
         this.viewCount = makePrettierViewCount(board.getViewCount());
-        this.profileImage = board.getProfileImage();
         this.email = board.getEmail();
         this.likeNo = board.getLikeNo();
         this.likeEmail = board.getLikeEmail();
+
+        if(board.getProfileImage() == null) { // 설정된 이미지 정보가 없으면
+            this.profileImage = "/assets/img/anonymous-image.png"; // 기본 프로필 사진
+        } else if(board.getProfileImage().contains("/profile")) { // 설정한 이미지 정보가 있고, profile 경로로 시작하면
+            this.profileImage = "/display" + board.getProfileImage();
+        } else { // profile 경로로 시작하지 않음(예: 카카오 로그인)
+            this.profileImage = board.getProfileImage();
+        }
     }
-    
+
+
+
     // 뷰카운트 표시방식 변경
     private String makePrettierViewCount(int viewCount) {
         String result;
@@ -60,19 +69,19 @@ public class BoardListResponseDTO {
         }
         return result;
     }
-    
+
     // 시간 표기
     public static String makePrettierDateString(LocalDateTime regDate) {
-        
+
         // 현재 시간
         LocalDateTime currentTime = LocalDateTime.now();
-        
+
         // 두 시간 사이의 차이 계산
         Duration duration = Duration.between(regDate, currentTime);
         long seconds = duration.toSeconds();
         long minutes = duration.toMinutes();
         long hoursDifference = duration.toHours();
-        
+
         String time = "";
         if (seconds < 60) {
             time = seconds + "초 전";
@@ -85,10 +94,10 @@ public class BoardListResponseDTO {
         } else {
             time = ChronoUnit.WEEKS.between(regDate, currentTime) + "주 전";
         }
-        
+
         return time;
     }
-    
+
     // 좋아요수 표기
     public static String makePrettierLikeCount(int likeCount) {
         String result;
@@ -103,7 +112,7 @@ public class BoardListResponseDTO {
         }
         return result;
     }
-    
+
     // 댓글 수 표기
     public static String makePrettierReplyCount(int replyCount) {
         String result;
@@ -118,5 +127,5 @@ public class BoardListResponseDTO {
         }
         return result;
     }
-    
+
 }
