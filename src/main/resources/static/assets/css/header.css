@@ -5,14 +5,11 @@
   font-style: normal;
 }
 
-m * {
+m*{
   box-sizing: border-box;
-}
-
-body {
-  background: black;
   font-family: 'GangwonEdu_OTFBoldA';
 }
+
 
 button {
   outline: none;
