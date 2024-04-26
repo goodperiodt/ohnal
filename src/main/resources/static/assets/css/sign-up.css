@@ -50,6 +50,7 @@ p.font {
   margin-top: 7px;
   color: black;
   box-shadow: 2px 2px 5px #8d8383;
+  font-weight: 700;
   
 }
 #sample6_address{
@@ -193,4 +194,7 @@ width:300px;
 .addressbtn:hover {
   box-shadow:inset 0 0 10px 2px blueviolet,0 0 10px 2px blueviolet;
   transition: 0.5s;
+}
+.address {
+  font-weight: 700;
 }
