@@ -37,6 +37,7 @@ a {
 }
 
 
+
 /* common style */
 .hide {
   display: none !important;
@@ -140,10 +141,10 @@ header .inner-header .menu-open .lnr-menu {
 /* header gnb style */
 header .gnb {
   font-family: 'TAEBAEKmilkyway';
-    background: #495051;
+    background: #c9fbd9;
     color: #c8ced3;
     width: 400px;
-    height: 70%;
+    height: 50%;
     font-size: 25px;
     padding-top: 110px;
     box-sizing: border-box;
@@ -155,11 +156,12 @@ header .gnb {
     display: flex;
     flex-direction: row-reverse;
     opacity: 0.9;
-    font-weight: 900;
+    font-weight: bold;
 }
 header .gnb.on {
   top: 0;
 }
+
  
 
 header .gnb .close {
@@ -178,11 +180,10 @@ header .gnb ul li {
   margin-bottom: 60px;
 }
 
-header .gnb ul li.active
-{
+header .gnb ul li.active{
   color: #ffffff;
 }
 
-.linkcolor:hover {
-color: #4db4dd;
+.linkcolor li a:hover {
+color: #d92bca;
 }
