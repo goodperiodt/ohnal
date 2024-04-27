@@ -1,6 +1,3 @@
-
-
-
 .upload-btn {
     margin-right: 30px;
     margin-bottom: 10px;
@@ -41,7 +38,8 @@
     transition: 0.5s;
     margin-bottom: 70px;
 }
-.card-container .card-wrapper .card-picture img{
+
+.card-container .card-wrapper .card-picture img {
     width: 100%;
     height: 100%;
 
@@ -85,7 +83,7 @@
 
 
 .card-container .card-wrapper .card-title-wrapper .card-account {
-    width: 70%;
+    width: 60%;
     font-size: 15px;
     display: flex;
     justify-content: start;
@@ -99,6 +97,7 @@
 }
 
 .card-container .card-wrapper:hover .board-del-btn {
+    width: 15%;
     opacity: 1;
 }
 
@@ -185,63 +184,6 @@
     height: 30px;
 }
 
-
-/* footer style */
-footer {
-    background-color: black;
-    position: relative;
-}
-
-footer .inner {
-    color: #fff;
-    width: 60%;
-    height: 125px;
-    margin: 0 auto 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-footer .inner h2 {
-    width: 30%;
-}
-
-footer .inner h2 img {
-    width: 100px;
-}
-
-footer .inner p {
-    width: 30%;
-    font-size: 12px;
-    flex-grow: 2;
-    text-align: center;
-}
-
-footer .inner ul {
-    font-size: 16px;
-    width: 30%;
-    display: flex;
-    justify-content: end;
-}
-
-footer .inner ul li:first-child {
-    font-weight: bold;
-}
-
-footer .inner ul li {
-    margin-right: 10px;
-}
-
-footer .inner ul li:last-child {
-    margin-right: 5px;
-}
-
-footer .lnr-envelope {
-    font-size: 23px;
-    font-weight: 600;
-}
-
-
 /* 페이지 스타일 /
 / pagination style */
 .bottom-section {
@@ -255,7 +197,6 @@ footer .lnr-envelope {
     justify-content: center;
 }
 
-
 .pagination-custom a {
     color: #444 !important;
 }
@@ -267,15 +208,6 @@ footer .lnr-envelope {
 }
 
 /*  페이지스타일  */
-
-
-
-
-
-
-
-
-
 
 
 
@@ -295,7 +227,7 @@ footer .lnr-envelope {
     /* 모달이 열렸을 때 보여지게 하는 코드 */
     opacity: 1;
     pointer-events: auto;
-    
+
     margin-left: 0;
 }
 
@@ -339,7 +271,7 @@ footer .lnr-envelope {
     transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
 
     transform: scale(0.8);
-    
+
 }
 
 .modal.show {
@@ -394,6 +326,7 @@ footer .lnr-envelope {
     width: 100%;
     height: 100%;
 }
+
 .modal-content .card-wrapper .card-title-wrapper .profile-box {
     width: 50px;
     height: 50px;
@@ -410,7 +343,7 @@ footer .lnr-envelope {
     justify-content: start;
     align-items: center;
     margin-left: 0px;
-
+    width: 60%;
 
 }
 
@@ -427,7 +360,8 @@ footer .lnr-envelope {
 }
 
 .modal .card-title-wrapper .time-stamp {
-    width: 20%;
+    width: 15%;
+    margin-left: 5%;
     align-content: center;
 }
 
@@ -437,6 +371,7 @@ footer .lnr-envelope {
 
     width: 80%;
 }
+
 .modal-content .li-ha .hashtag {
     font-size: 20px;
     line-height: 15px;
@@ -452,7 +387,7 @@ footer .lnr-envelope {
     border-top: 1px solid lightgray;
     /* line-height: 15px; */
     overflow: auto;
-    
+
     /* border: 1px dashed; */
 }
 
@@ -479,7 +414,7 @@ footer .lnr-envelope {
     margin-left: 45px;
 }
 
-.replys .content-comments  {
+.replys .content-comments {
     width: 100%;
     padding-left: 20px;
     padding-right: 10px;
@@ -517,6 +452,7 @@ footer .lnr-envelope {
     flex-wrap: wrap;
     box-sizing: content-box;
 }
+
 .modal .modal-wrapper-card-2 .replys .reply-wrapper .card-account {
     width: 40%;
     margin-left: 15px;
@@ -532,10 +468,17 @@ footer .lnr-envelope {
 
 .modal .modal-wrapper-card-2 .replys .reply-wrapper .reply {
     width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.modal .modal-wrapper-card-2 .replys .reply-wrapper .reply .reply-content {
+    width: 100%;
     margin-left: 8%;
     margin-top: 5px;
     margin-bottom: 0;
 }
+
 .modal .modal-wrapper-card-2 .replys .reply-data {
     width: 100%;
     /* border: 1px dashed purple; */
@@ -546,12 +489,14 @@ footer .lnr-envelope {
     margin-left: 8%;
 }
 
-.modal .modal-wrapper-card-2 .replys .reply-data *{
-    font-size: 13px; color: gray;
+.modal .modal-wrapper-card-2 .replys .reply-data * {
+    font-size: 13px;
+    color: gray;
     margin-left: 10px;
     background: none;
 }
- /* 댓글 입력 버튼창 */
+
+/* 댓글 입력 버튼창 */
 .modal-content .write-reply {
     border: 1px solid lightgray;
     align-items: end;
@@ -559,20 +504,21 @@ footer .lnr-envelope {
 
 .modal-content .write-reply .write-wrapper {
     width: 100%;
-     /* border: 1px dashed;  */
+    /* border: 1px dashed;  */
     display: flex;
 }
+
 .modal-content .card .content-wrapper p:first-child {
     margin-top: 10px;
 
 }
 
 .modal-content .write-reply .write-input {
-    font-size: 15px; 
+    font-size: 15px;
     width: 85%;
     height: 100%;
     border-style: none;
-    
+
     /* border: 1px dashed; */
 }
 
@@ -591,6 +537,14 @@ footer .lnr-envelope {
     overflow: hidden;
 }
 
+.reply-mod {
+    margin-left: 8%;
+    width: 92%;
+}
+
+.reply-mod.toggle {
+    display: none;
+}
 
 
 /* 모달 끝*/

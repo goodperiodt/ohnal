@@ -1,13 +1,14 @@
 package com.ohnal.chap.controller;
 
-import com.mysql.cj.Session;
 import com.ohnal.chap.common.PageMaker;
 import com.ohnal.chap.common.Search;
 import com.ohnal.chap.dto.request.BoardLikeRequestDTO;
+import com.ohnal.chap.dto.request.BoardReplyDeleteRequestDTO;
+import com.ohnal.chap.dto.request.BoardReplyModifyRequestDTO;
 import com.ohnal.chap.dto.request.BoardWriteRequestDTO;
 import com.ohnal.chap.dto.response.BoardListResponseDTO;
 import com.ohnal.chap.dto.response.BoardReplyResponseDTO;
-import com.ohnal.chap.dto.response.BoardWriteDTO;
+import com.ohnal.chap.dto.BoardWriteDTO;
 import com.ohnal.chap.dto.response.WeatherInfoResponseDTO;
 import com.ohnal.chap.entity.Board;
 import com.ohnal.chap.service.BoardService;
@@ -81,7 +82,7 @@ public class BoardContoller {
 
         String locationTag = "#" + weatherDTO.getArea1()+ weatherDTO.getArea2();
 
-        String weatherTag = "#최고" + maxTemperature + "º최저" + minTemperature + "º";
+        String weatherTag = "#최고" + maxTemperature + "최저" + minTemperature;
 
         BoardWriteDTO dto =BoardWriteDTO.builder()
                 .nickname(nickname)
@@ -144,10 +145,12 @@ public class BoardContoller {
 
     // 게시물 자세히 보기
     @GetMapping("/delete/{bno}")
-    public void delete(@PathVariable int bno) {
+    public ResponseEntity<?> delete(@PathVariable int bno) {
         log.info("delete: {}", bno);
 
         boardService.delete(bno);
+
+        return ResponseEntity.ok().body("success");
     }
 
     // 좋아요 기능
@@ -165,6 +168,33 @@ public class BoardContoller {
         }
         return ResponseEntity.ok().body("success");
 
+    }
+    
+    // 댓글 삭제
+    @DeleteMapping("/reply")
+    private ResponseEntity<?> replyDel(@RequestBody BoardReplyDeleteRequestDTO dto) {
+        log.info("/board/reply/delete: DELETE, dto: {}", dto);
+        
+        int rno = dto.getRno();
+        int bno = dto.getBno();
+        
+        boolean flag = boardService.findReply(dto);
+        
+        if (!flag) {
+            return ResponseEntity.badRequest().body("false");
+        } else {
+            boardService.deleteReply(rno, bno);
+            return ResponseEntity.ok().body("success");
+        }
+    }
+    
+    // 댓글 수정
+    @PostMapping("/reply/update")
+    private ResponseEntity<?> replyMod(@RequestBody BoardReplyModifyRequestDTO dto) {
+        log.info("/board/reply/update: POST, dto: {}", dto);
+        boardService.modifyReply(dto);
+        
+        return ResponseEntity.ok().body("success");
     }
 
 }
