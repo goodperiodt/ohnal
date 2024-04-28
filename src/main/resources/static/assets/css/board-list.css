@@ -10,7 +10,7 @@
     margin-right: 30px;
     margin-bottom: 10px;
     background-color: #cedfd7;
-    padding: 24px;
+    padding: 22px;
     height: 49px;
     align-content: center;
     border-radius: 10px;
@@ -18,8 +18,8 @@
     color: black;
     width: 141px;
     cursor: pointer;
-    font-size: 24px;
-    padding-top: 28px;
+    font-size: 22px;
+    padding-top: 24px;
 }
 .upload-btn:hover {
     transition:0.5s;
