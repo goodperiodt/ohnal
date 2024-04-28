@@ -30,19 +30,20 @@
 
 .card-container {
     display: flex;
-    justify-content: space-around;
+    /* justify-content: space-around; */
     flex-wrap: wrap;
-    margin: 75px 100px;
-    font-family: 'GangwonEdu_OTFBoldA';
-
+    /*margin: 75px 100px;*/
+    margin: 0 auto 0;
+    font-family: 'GangwonEdu_OTFBoldA', sans-serif;
 }
 
-.card-container .top-wrapper {
+.top-wrapper {
     display: flex;
     justify-content: space-between;
-    width: 100%;
+    width: 94%;
     height: 70px;
-    margin-top: 100px;
+    margin-top: 200px;
+    margin-left: 3%;
 }
 
 #keyword {
@@ -54,13 +55,35 @@
 
 .card-container .card-wrapper {
     position: relative;
-    width: 22%;
-    height: 600px;
+    width: 20%;
+    height: 750px;
     cursor: pointer;
     transition: 0.5s;
     margin-bottom: 70px;
+    margin-right: 4%;
     border: solid 1px black;
     box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.5);
+}
+
+.card-container .card-wrapper:nth-child(4n) {
+    /* 한 줄에 카드 4개 오는데,
+    카드 3개만 margin-right 4%씩
+    마지막 카드 1개는 margin-right 0% */
+    margin-right: 4%;
+}
+
+.card-container .card-wrapper:first-child {
+    /* 한 줄에 카드 4개 오는데,
+    카드 3개만 margin-right 4%씩
+    마지막 카드 1개는 margin-right 0% */
+    margin-left: 4%;
+}
+
+.card-container .card-wrapper:nth-child(4n + 1) {
+    /* 한 줄에 카드 4개 오는데,
+    카드 3개만 margin-right 4%씩
+    마지막 카드 1개는 margin-right 0% */
+    margin-left: 4%;
 }
 
 .card-container .card-wrapper .card-picture img {
@@ -78,9 +101,9 @@
     border: 0px solid transparent;
 }
 
-.card-container .card:last-child {
+/*.card-container .card:last-child {
     margin-right: 0;
-}
+}*/
 
 .card-container .card .card-title-wrapper {
     color: #000000;
@@ -206,6 +229,7 @@
 .main-content {
     overflow: hidden;
     height: 30px;
+    /*패딩 이상하면 삭제*/
     padding-top: 2px;
 }
 
@@ -223,7 +247,6 @@
     justify-content: center;
 }
 
-
 .pagination-custom a {
     color: #444 !important;
 }
@@ -238,7 +261,7 @@
 
 
 
-/* 모달 */
+ /* 모달 */
 
 
 
@@ -544,9 +567,12 @@
     font-size: 15px;
     width: 85%;
     height: 100%;
-    border-style: none;
 
     /* border: 1px dashed; */
+}
+
+.modal-content .write-reply .write-input:focus {
+    outline-style: none;
 }
 
 .modal-content .write-reply .write-send {
@@ -567,6 +593,10 @@
 .reply-mod {
     margin-left: 8%;
     width: 92%;
+}
+
+.reply-mod:focus {
+    outline-style: none;
 }
 
 .reply-mod.toggle {

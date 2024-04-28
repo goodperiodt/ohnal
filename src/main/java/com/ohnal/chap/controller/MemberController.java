@@ -10,24 +10,19 @@ import com.ohnal.chap.entity.Member;
 import com.ohnal.chap.service.*;
 import com.ohnal.util.FileUtils;
 import com.ohnal.chap.service.MailSenderService;
-import com.ohnal.util.LoginUtils;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.eclipse.tags.shaded.org.apache.xalan.templates.ElemValueOf;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.Collections;
 import java.util.List;
 
 import static com.ohnal.util.LoginUtils.*;
@@ -188,12 +183,10 @@ public class MemberController {
         // 처음 들어왔을 때, my-history 페이지에서
         // 작성한 글 버튼 눌렀을 때 보여지는 화면이 기본 값이다.
         List<BoardListResponseDTO> myPosts = boardService.findAllByEmail(email, page);
-
-        // 컬렉션 타입 myPosts 에 담긴 갯수로 pageMaker getCount 값 주기
-        log.info("myPosts.size(): {}", myPosts.size());
         PageMaker maker = new PageMaker(page, myPosts.size());
 
         log.info("maker: {}", maker);
+        log.info("내가 좋아요한 글 개수: {}", maker);
         log.info("내가 작성한 글 목록: {}", myPosts);
 
         int type = 1;
@@ -213,10 +206,10 @@ public class MemberController {
 
         // 여기서 myPosts는 내가 작성한 댓글의 글들의 정보를 담은 List컬렉션
         List<BoardListResponseDTO> myPosts = boardService.findMyComments(email, page);
-        PageMaker maker = new PageMaker(page, myPosts.size());
 
+        PageMaker maker = new PageMaker(page, myPosts.size());
         log.info("maker: {}", maker);
-        log.info("내가 작성한 댓글 개수: {}", maker.getTotalCount());
+        log.info("내가 좋아요한 글 개수: {}", maker);
         log.info("내가 작성한 댓글 목록: {}", myPosts);
 
         int type = 2;
@@ -237,14 +230,15 @@ public class MemberController {
 
         // 여기서 myPosts는 내가 좋아요한 글의 정보를 담은 List컬렉션
         List<BoardListResponseDTO> myPosts = boardService.findMyLikePosts(email, page);
-        PageMaker maker = new PageMaker(page, myPosts.size());
 
+        PageMaker maker = new PageMaker(page, myPosts.size());
         log.info("maker: {}", maker);
-        log.info("내가 좋아요한 글 개수: {}", maker.getTotalCount());
+        log.info("내가 좋아요한 글 개수: {}", maker);
         log.info("내가 좋아요한 글 목록: {}", myPosts);
 
         int type = 3;
         model.addAttribute("type", type);
+
         model.addAttribute("myPosts", myPosts); // 내가 작성한 댓글 목록을 모델에 담아
         model.addAttribute("maker", maker); // 페이징 처리된 객체를 모델에 담아
 
