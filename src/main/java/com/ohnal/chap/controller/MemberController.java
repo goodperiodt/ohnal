@@ -189,9 +189,11 @@ public class MemberController {
         // 작성한 글 버튼 눌렀을 때 보여지는 화면이 기본 값이다.
         List<BoardListResponseDTO> myPosts = boardService.findAllByEmail(email, page);
 
-        PageMaker maker = new PageMaker(page, boardService.getMyPostsCount(email));
+        // 컬렉션 타입 myPosts 에 담긴 갯수로 pageMaker getCount 값 주기
+        log.info("myPosts.size(): {}", myPosts.size());
+        PageMaker maker = new PageMaker(page, myPosts.size());
+
         log.info("maker: {}", maker);
-        log.info("내가 작성한 글 목록 개수: {}", maker.getTotalCount());
         log.info("내가 작성한 글 목록: {}", myPosts);
 
         int type = 1;
@@ -210,9 +212,9 @@ public class MemberController {
         log.info("email: {}", email);
 
         // 여기서 myPosts는 내가 작성한 댓글의 글들의 정보를 담은 List컬렉션
-        List<BoardListResponseDTO> myPosts = boardService.findMyComments(email);
+        List<BoardListResponseDTO> myPosts = boardService.findMyComments(email, page);
+        PageMaker maker = new PageMaker(page, myPosts.size());
 
-        PageMaker maker = new PageMaker(page, boardService.getMyCommentsCount(email));
         log.info("maker: {}", maker);
         log.info("내가 작성한 댓글 개수: {}", maker.getTotalCount());
         log.info("내가 작성한 댓글 목록: {}", myPosts);
@@ -234,16 +236,15 @@ public class MemberController {
         log.info("email: {}", email);
 
         // 여기서 myPosts는 내가 좋아요한 글의 정보를 담은 List컬렉션
-        List<BoardListResponseDTO> myPosts = boardService.findMyLikePosts(email);
+        List<BoardListResponseDTO> myPosts = boardService.findMyLikePosts(email, page);
+        PageMaker maker = new PageMaker(page, myPosts.size());
 
-        PageMaker maker = new PageMaker(page, boardService.getMyLikeCount(email));
         log.info("maker: {}", maker);
         log.info("내가 좋아요한 글 개수: {}", maker.getTotalCount());
         log.info("내가 좋아요한 글 목록: {}", myPosts);
 
         int type = 3;
         model.addAttribute("type", type);
-
         model.addAttribute("myPosts", myPosts); // 내가 작성한 댓글 목록을 모델에 담아
         model.addAttribute("maker", maker); // 페이징 처리된 객체를 모델에 담아
 

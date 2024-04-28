@@ -5,10 +5,11 @@ import com.ohnal.chap.common.PageMaker;
 import com.ohnal.chap.common.Search;
 import com.ohnal.chap.dto.request.BoardLikeRequestDTO;
 import com.ohnal.chap.dto.request.BoardReplyDeleteRequestDTO;
+import com.ohnal.chap.dto.request.BoardReplyModifyRequestDTO;
 import com.ohnal.chap.dto.request.BoardWriteRequestDTO;
 import com.ohnal.chap.dto.response.BoardListResponseDTO;
 import com.ohnal.chap.dto.response.BoardReplyResponseDTO;
-import com.ohnal.chap.dto.response.BoardWriteDTO;
+import com.ohnal.chap.dto.BoardWriteDTO;
 import com.ohnal.chap.dto.response.WeatherInfoResponseDTO;
 import com.ohnal.chap.entity.Board;
 import com.ohnal.chap.service.BoardService;
@@ -48,8 +49,8 @@ public class BoardContoller {
         log.info(String.valueOf(page));
         String email = LoginUtils.getCurrentLoginMemberEmail(session);
         log.info("email: {}", email);
+        log.info("pageNo: {}", page.getPageNo());
         List<BoardListResponseDTO> dtoList = boardService.findAll(page, email);
-        log.info(dtoList.toString());
         PageMaker pageMaker = new PageMaker(page, boardService.getCount());
         model.addAttribute("bList", dtoList);
         model.addAttribute("maker", pageMaker);
@@ -168,6 +169,7 @@ public class BoardContoller {
 
     }
     
+    // 댓글 삭제
     @DeleteMapping("/reply")
     private ResponseEntity<?> replyDel(@RequestBody BoardReplyDeleteRequestDTO dto) {
         log.info("/board/reply/delete: DELETE, dto: {}", dto);
@@ -183,6 +185,15 @@ public class BoardContoller {
             boardService.deleteReply(rno, bno);
             return ResponseEntity.ok().body("success");
         }
+    }
+    
+    // 댓글 수정
+    @PostMapping("/reply/update")
+    private ResponseEntity<?> replyMod(@RequestBody BoardReplyModifyRequestDTO dto) {
+        log.info("/board/reply/update: POST, dto: {}", dto);
+        boardService.modifyReply(dto);
+        
+        return ResponseEntity.ok().body("success");
     }
 
 }

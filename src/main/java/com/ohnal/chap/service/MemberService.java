@@ -3,6 +3,7 @@ package com.ohnal.chap.service;
 import com.ohnal.chap.dto.request.AutoLoginDTO;
 import com.ohnal.chap.dto.request.LoginRequestDTO;
 import com.ohnal.chap.dto.request.ModifyRequestDTO;
+import com.ohnal.chap.dto.request.ModifyRequestDTO;
 import com.ohnal.chap.dto.request.NaverSignUpRequestDTO;
 import com.ohnal.chap.dto.request.SignUpRequestDTO;
 import com.ohnal.chap.dto.response.LoginUserResponseDTO;
