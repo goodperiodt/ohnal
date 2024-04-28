@@ -129,11 +129,12 @@ $replys.onclick = e => {
     const $email = $modal.dataset.email;
     // console.log(replyNo);
     // console.log($email);
-    
+
     // 댓글 삭제 이벤트
     if (e.target.matches('.reply-delete')) {
       if ($email !== '') {
-        if ($reply.querySelector('.card-account').dataset.email == $email) {
+        if ($reply.querySelector('.card-account').dataset.email == $email ||
+            document.querySelector('.card-container').dataset.auth == 'ADMIN') {
 
           const payLoad = {
             bno: bno,
@@ -168,12 +169,13 @@ $replys.onclick = e => {
       // console.log($modBtn);
       const $replyContent = $reply.querySelector('.reply-content');
       const $replyMod = $reply.querySelector('.reply-mod');
+      console.log($replyMod);
 
-      document.addEventListener('keydown', function(event) {
+      document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape') {
-            $replyMod.classList.add('toggle');
+          $replyMod.classList.add('toggle');
         }
-    });
+      });
 
       if ($email !== '') {
 
@@ -181,14 +183,14 @@ $replys.onclick = e => {
           // 엔터 키가 눌렸을 때 이벤트 리스너 추가
           document.addEventListener('keydown', handleModEnterKeyPress);
           // Esc 키가 눌렸을 때 이벤트 리스너 추가
-          
+
           $replyMod.classList.toggle('toggle');
           $replyMod.focus();
           $replyMod.onblur = () => {
             $replyMod.classList.add('toggle');
           }
           $modBtn.onclick = () => {
-            
+
             const content = $replyMod.value;
             // console.log($replyMod.value);
             $replyMod.setAttribute('placeholder', content)
